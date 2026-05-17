@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中学英語：5文型・現在完了形 完全攻略インタラクティブ・ガイド</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chosen Palette: Indigo (indigo-800) for structural/grammar rules, emerald (emerald-600) for timeline/verb tenses, amber (amber-500) for focus points, and warm neutral background (stone-50) for readable learning. -->
+    
+    <!-- Application Structure Plan: A tabbed single-page application (SPA). English grammar relies heavily on patterns and visualization. The structure is:
+    1. "Home" - Overview of syntax and time concepts.
+    2. "5 Sentence Patterns" - Visual color-coded syntax analyzer showing S, V, O, C, M relationships.
+    3. "Present Perfect" - Interactive timeline visualization representing the "past-to-present" link, comparing Continuative, Experiential, and Perfective aspects.
+    4. "Review & Test" - Active recall quiz focusing on verb shifts and tense distinction (Past vs. Present Perfect). -->
+    
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: #fafaf9; 
+            color: #292524;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .returen-button{
+            display:block;
+            margin-left:auto;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="bg-indigo-900 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">中学英語インタラクティブ・マスター</h1>
+            <p class="mt-1 text-indigo-200 text-sm sm:text-base">5つの基本文型 ＆ 現在完了形を視覚的に攻略しよう！</p>
+            <button class="return-button" onclick="location.href='index.html'">戻る</button>
+        </div>
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <ul class="flex space-x-1 overflow-x-auto hide-scrollbar text-sm sm:text-base font-medium pb-2">
+                <li><button onclick="switchTab('home')" id="tab-home" class="px-4 py-2 rounded-md bg-indigo-800 text-white transition-colors whitespace-nowrap">全体の流れ</button></li>
+                <li><button onclick="switchTab('patterns')" id="tab-patterns" class="px-4 py-2 rounded-md hover:bg-indigo-700 text-indigo-100 transition-colors whitespace-nowrap">1. 英語の五大文型</button></li>
+                <li><button onclick="switchTab('perfect')" id="tab-perfect" class="px-4 py-2 rounded-md hover:bg-indigo-700 text-indigo-100 transition-colors whitespace-nowrap">2. 現在完了形</button></li>
+                <li><button onclick="switchTab('review')" id="tab-review" class="px-4 py-2 rounded-md hover:bg-indigo-700 text-indigo-100 transition-colors whitespace-nowrap">重要確認テスト</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="flex-grow max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8 w-full">
+
+        <!-- HOME TAB -->
+        <section id="home" class="tab-content active">
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-indigo-900 mb-4">テスト頻出の「語順」と「時制」を極める</h2>
+                <p class="text-stone-600 leading-relaxed mb-6">
+                    英語を正しく読み、書くために最も土台となるのが「語順のルール（五大文型）」です。また、日本語の「〜した（過去）」とはまったく異なる時間的な奥行きを持つ「現在完了形」は、中学英語の最大の関門。
+                    このガイドでは、それぞれのルールとイメージをアニメーションやグラフィックスで分かりやすく図解しています。
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-5 bg-stone-50 rounded-lg border border-stone-100 cursor-pointer hover:shadow-md transition-shadow" onclick="switchTab('patterns')">
+                        <h3 class="font-bold text-lg text-indigo-800">📐 1. 英語の五大文型</h3>
+                        <p class="text-sm text-stone-500 mt-2">すべての英文は5つの骨組みに分類できます。S, V, O, Cの正しい判別方法と、おまけ要素（M）の違いをビジュアルで学びます。</p>
+                    </div>
+                    <div class="p-5 bg-stone-50 rounded-lg border border-stone-100 cursor-pointer hover:shadow-md transition-shadow" onclick="switchTab('perfect')">
+                        <h3 class="font-bold text-lg text-emerald-800">⏳ 2. 現在完了形の3つの顔</h3>
+                        <p class="text-sm text-stone-500 mt-2">過去と現在をつなぐ「現在完了形」の継続・経験・完了の3つの用法のイメージと、それぞれ一緒に使われるキーワードをシミュレートします。</p>
+                    </div>
+                    <div class="p-5 bg-stone-50 rounded-lg border border-stone-100 cursor-pointer hover:shadow-md transition-shadow" onclick="switchTab('review')">
+                        <h3 class="font-bold text-lg text-amber-800">✏️ 3. 実戦確認テスト</h3>
+                        <p class="text-sm text-stone-500 mt-2">「過去形と現在完了形の判別」や「第4文型から第3文型への書き換え」など、記述試験で点数を落としがちなポイントを撃破します。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: FIVE SENTENCE PATTERNS -->
+        <section id="patterns" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-indigo-900 mb-2">1. 英語の五大文型 (Sentence Patterns)</h2>
+                <p class="text-stone-600 leading-relaxed">
+                    英語は**「配置の言語」**です。単語がどの位置にあるかによって役割が決まります。文を形づくる4つの主要素 **S（主語）**, **V（動詞）**, **O（目的語）**, **C（補語）** と、骨組みに含まれない修飾語 **M** の関係を捉えましょう。
+                </p>
+            </div>
+
+            <!-- CORE CONCEPTS GLOSSARY -->
+            <div class="grid grid-cols-5 gap-3 mb-8 text-center text-xs sm:text-sm font-bold">
+                <div class="bg-red-50 border border-red-200 text-red-800 p-3 rounded shadow-sm">
+                    <span class="block text-lg font-black">S</span>主語 (Subject)
+                </div>
+                <div class="bg-blue-50 border border-blue-200 text-blue-800 p-3 rounded shadow-sm">
+                    <span class="block text-lg font-black">V</span>動詞 (Verb)
+                </div>
+                <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-3 rounded shadow-sm">
+                    <span class="block text-lg font-black">O</span>目的語 (Object)
+                </div>
+                <div class="bg-amber-50 border border-amber-200 text-amber-800 p-3 rounded shadow-sm">
+                    <span class="block text-lg font-black">C</span>補語 (Complement)
+                </div>
+                <div class="bg-stone-100 border border-stone-200 text-stone-600 p-3 rounded shadow-sm">
+                    <span class="block text-lg font-black text-stone-400">M</span>修飾語 (Modifier)
+                </div>
+            </div>
+
+            <!-- INTERACTIVE ANALYZER -->
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 mb-8">
+                <h3 class="text-xl font-bold text-stone-800 mb-4">5文型ビジュアル・アナライザー</h3>
+                <p class="text-sm text-stone-600 mb-6">各文型ボタンをクリックすると、例文中のパーツの色分けと文型の構造ルールが表示されます。</p>
+
+                <!-- PATTERN BUTTONS -->
+                <div class="grid grid-cols-5 gap-2 mb-6 text-xs sm:text-sm">
+                    <button onclick="showPattern(1)" id="btn-p1" class="py-3 px-1 rounded-lg text-center font-bold border bg-indigo-50 border-indigo-200 text-indigo-900 transition-all">第1文型<br><span class="text-[10px] font-normal font-mono">SV (SはVする)</span></button>
+                    <button onclick="showPattern(2)" id="btn-p2" class="py-3 px-1 rounded-lg text-center font-bold border bg-white border-stone-200 text-stone-700 hover:bg-stone-50 transition-all">第2文型<br><span class="text-[10px] font-normal font-mono">SVC (S=Cである)</span></button>
+                    <button onclick="showPattern(3)" id="btn-p3" class="py-3 px-1 rounded-lg text-center font-bold border bg-white border-stone-200 text-stone-700 hover:bg-stone-50 transition-all">第3文型<br><span class="text-[10px] font-normal font-mono">SVO (SはOをVする)</span></button>
+                    <button onclick="showPattern(4)" id="btn-p4" class="py-3 px-1 rounded-lg text-center font-bold border bg-white border-stone-200 text-stone-700 hover:bg-stone-50 transition-all">第4文型<br><span class="text-[10px] font-normal font-mono">SVOO (人に物を与える)</span></button>
+                    <button onclick="showPattern(5)" id="btn-p5" class="py-3 px-1 rounded-lg text-center font-bold border bg-white border-stone-200 text-stone-700 hover:bg-stone-50 transition-all">第5文型<br><span class="text-[10px] font-normal font-mono">SVOC (O=Cにする)</span></button>
+                </div>
+
+                <!-- ANALYZER VISUAL CONTAINER -->
+                <div class="bg-stone-50 rounded-xl p-6 border border-stone-200">
+                    <div class="flex justify-between items-center mb-4">
+                        <span id="pattern-num-label" class="text-sm bg-indigo-600 text-white px-3 py-1 rounded-full font-bold">第1文型：SV</span>
+                        <span class="text-xs text-stone-400">※ M (修飾語) は骨組み(S,V,O,C)に数えません</span>
+                    </div>
+
+                    <!-- EXPR SENTENCE COLOR DISPLAY -->
+                    <div class="flex flex-wrap items-center justify-center gap-2 p-6 bg-white rounded-lg shadow-inner mb-6 text-xl sm:text-2xl font-bold font-mono tracking-wide" id="sentence-container">
+                        <!-- Will be updated dynamically via JS -->
+                    </div>
+
+                    <!-- STRUCTURAL RELATIONSHIP & KEY POINT -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="p-4 bg-white rounded-lg border border-stone-200 shadow-sm">
+                            <h4 class="font-bold text-stone-800 text-sm mb-2">⚖️ この文型の最大特徴</h4>
+                            <p id="pattern-relation-desc" class="text-xs sm:text-sm text-stone-600 leading-relaxed">
+                                S（主語）とV（動詞）だけで文が成り立ちます。動詞の後ろに置かれる修飾語（M）は、骨組みには含まれません。
+                            </p>
+                        </div>
+                        <div class="p-4 bg-amber-50 rounded-lg border border-amber-200">
+                            <h4 class="font-bold text-amber-900 text-sm mb-2">💡 テスト必出の判別＆書き換えのコツ</h4>
+                            <p id="pattern-exam-trick" class="text-xs sm:text-sm text-amber-950 leading-relaxed">
+                                この文型で使われる動詞は「自らのみで完結する」ため「自動詞（じどうし）」と呼ばれます。後ろに名詞を置きたい時は、in や to などの「前置詞」が不可欠です。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: PRESENT PERFECT -->
+        <section id="perfect" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-emerald-800 mb-2">2. 現在完了形 (Present Perfect Tense)</h2>
+                <p class="text-stone-600 leading-relaxed">
+                    現在完了形 **[ have / has + 過去分詞 ]** は、**「過去の出来事が、矢印のように今もずーっと繋がっている」**ことを表す時制です。単なる「過去形」は現在と切り離されていますが、現在完了形はつねに「今」を見つめているのがポイント。
+                </p>
+            </div>
+
+            <!-- INTERACTIVE TIMELINE SELECTOR -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
+                <div class="lg:col-span-4 bg-white rounded-xl shadow-sm border border-stone-200 p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-stone-800 mb-4">用法の切り替え</h3>
+                        <p class="text-xs text-stone-500 mb-3">3つの用法を選択すると、タイムラインのイメージ図とよく使われるキーワードが連動して変化します。</p>
+                        
+                        <div class="space-y-3">
+                            <button onclick="showPerfectUsage('duration')" id="btn-perf-dur" class="w-full text-left px-4 py-3 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-900 font-bold transition-all flex justify-between items-center">
+                                <span>🔄 継続（ずっと〜している）</span>
+                                <span class="text-xs bg-emerald-200 px-2 py-0.5 rounded text-emerald-800">状態</span>
+                            </button>
+                            <button onclick="showPerfectUsage('experience')" id="btn-perf-exp" class="w-full text-left px-4 py-3 rounded-lg border border-stone-200 bg-white text-stone-700 hover:bg-stone-50 transition-all flex justify-between items-center">
+                                <span>🗺️ 経験（〜したことがある）</span>
+                                <span class="text-xs bg-stone-200 px-2 py-0.5 rounded text-stone-600">経験</span>
+                            </button>
+                            <button onclick="showPerfectUsage('completion')" id="btn-perf-comp" class="w-full text-left px-4 py-3 rounded-lg border border-stone-200 bg-white text-stone-700 hover:bg-stone-50 transition-all flex justify-between items-center">
+                                <span>✅ 完了・結果（もう〜した）</span>
+                                <span class="text-xs bg-stone-200 px-2 py-0.5 rounded text-stone-600">状態変化</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 p-4 bg-emerald-50/50 rounded-lg border border-emerald-200 text-xs text-stone-700">
+                        🔔 <strong>現在完了形の注意点:</strong><br>
+                        「過去の一点」をはっきり示す表現（yesterday, ago, last year, when I was... など）とは、現在に矢印が届かなくなるため、絶対に一緒に使うことはできません。
+                    </div>
+                </div>
+
+                <!-- TIMELINE SCREEN -->
+                <div class="lg:col-span-8 bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-lg font-bold text-stone-800 mb-4">時制の視覚イメージ</h3>
+                    
+                    <!-- DYNAMIC GRAPHIC PATH -->
+                    <div class="relative w-full bg-stone-100 rounded-lg p-6 border border-stone-200 mb-6 flex flex-col justify-between" style="min-height: 180px;">
+                        <div class="flex justify-between items-center text-xs font-bold text-stone-400 mb-2">
+                            <span>【 過去 (Past) 】</span>
+                            <span>─── 現在完了 have + p.p. ───&gt;</span>
+                            <span>【 現在 (Present) 】</span>
+                        </div>
+                        
+                        <!-- VISUAL PATH CONTAINER -->
+                        <div class="relative w-full h-12 flex items-center mb-4">
+                            <!-- Baseline -->
+                            <div class="absolute w-full h-1 bg-stone-300 rounded-full"></div>
+                            <!-- Arrow representing Present Perfect -->
+                            <div id="timeline-arrow" class="absolute left-1/4 right-0 h-2 bg-emerald-500 rounded-full transition-all duration-700"></div>
+                            <!-- Past node -->
+                            <div class="absolute left-1/4 w-4 h-4 rounded-full bg-stone-400 border-2 border-white shadow-sm" id="node-past"></div>
+                            <!-- Present node -->
+                            <div class="absolute right-0 w-6 h-6 rounded-full bg-emerald-600 border-4 border-white shadow-md flex items-center justify-center text-white text-[10px] font-bold">今</div>
+                        </div>
+
+                        <div class="text-center">
+                            <p id="timeline-text" class="text-sm font-bold text-emerald-800">過去から現在までずーっと状態が続いているイメージ</p>
+                        </div>
+                    </div>
+
+                    <!-- EXAMPLES & KEYWORDS -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200">
+                            <span class="text-xs text-stone-500 font-bold block mb-1">一緒に使われるキーワード：</span>
+                            <div id="perfect-keywords" class="flex flex-wrap gap-1.5">
+                                <!-- updated dynamically -->
+                            </div>
+                        </div>
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200">
+                            <span class="text-xs text-stone-500 font-bold block mb-1">代表的な例文：</span>
+                            <p id="perfect-example" class="font-mono text-sm font-bold text-indigo-950 mt-1">He has lived in Tokyo for five years.</p>
+                            <p id="perfect-example-jp" class="text-xs text-stone-600 mt-1">（彼は5年間東京にずっと住んでいます。）</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: QUIZ & EXERCISES -->
+        <section id="review" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-indigo-900 mb-2">一問一答・テスト頻出 記述トレーニング</h2>
+                <p class="text-stone-600 leading-relaxed">
+                    学校の定期テストや高校入試で特に出題され、間違いが生じやすい英文法のポイントを集約しました。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- ACCORDION 1: 5 PATTERNS PRACTICE -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-xl font-bold text-stone-800 mb-4 border-b-2 border-indigo-100 pb-2">📂 五大文型の記述チェック</h3>
+                    <p class="text-xs text-stone-500 mb-4">テストで間違いやすい文法変換や見分け方を徹底マスター。</p>
+                    <div class="space-y-3" id="pattern-faq-list">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- ACCORDION 2: PRESENT PERFECT PRACTICE -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-xl font-bold text-stone-800 mb-4 border-b-2 border-emerald-100 pb-2">⏳ 現在完了形の用法判別・過去形との違い</h3>
+                    <p class="text-xs text-stone-500 mb-4">似ているようで全く異なる「時制」の使い分け・書き換えをチェック。</p>
+                    <div class="space-y-3" id="perfect-faq-list">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-800 text-stone-300 py-6 text-center text-sm mt-auto">
+        <p>中学校英語学習ガイド | 5大文型・現在完了形</p>
+    </footer>
+
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.remove('bg-indigo-800', 'text-white');
+                btn.classList.add('text-indigo-100', 'hover:bg-indigo-700');
+            });
+            
+            document.getElementById(tabId).classList.add('active');
+            
+            const activeBtn = document.getElementById('tab-' + tabId);
+            activeBtn.classList.remove('text-indigo-100', 'hover:bg-indigo-700');
+            activeBtn.classList.add('bg-indigo-800', 'text-white');
+
+            if (tabId === 'patterns') {
+                showPattern(1);
+            }
+            if (tabId === 'perfect') {
+                showPerfectUsage('duration');
+            }
+        }
+
+        // 1. 5 SENTENCE PATTERNS SYSTEM
+        const patternData = {
+            1: {
+                label: "第1文型：SV",
+                desc: "S（主語）とV（動詞）だけで文が成り立ちます。動詞の後ろに置かれる修飾語（M）は、骨組みには含まれません。",
+                trick: "この文型で使われる動詞は「自動詞（じどうし）」と呼ばれ、後ろに名詞を直接置くことができません。場所や時間を添えたい時は、in や to などの「前置詞」が不可欠です（前置詞＋名詞は修飾語Mとなります）。",
+                words: [
+                    { t: "We", c: "bg-red-50 text-red-800 border-red-200", s: "S" },
+                    { t: "run", c: "bg-blue-50 text-blue-800 border-blue-200", s: "V" },
+                    { t: "in the park.", c: "bg-stone-100 text-stone-500 border-stone-200", s: "M" }
+                ]
+            },
+            2: {
+                label: "第2文型：SVC",
+                desc: "S（主語）＝ C（補語）の関係が成り立ちます。C（補語）の位置には、名詞または形容詞が来ます。",
+                trick: "動詞（lookやbecomeなど）を「＝（等号）」に置き換えても文の意味が破綻しないのが最大の特徴です。例：She looks happy. (She = happy) 状態や印象を表します。",
+                words: [
+                    { t: "She", c: "bg-red-50 text-red-800 border-red-200", s: "S" },
+                    { t: "is", c: "bg-blue-50 text-blue-800 border-blue-200", s: "V" },
+                    { t: "a doctor.", c: "bg-amber-50 text-amber-800 border-amber-200", s: "C" }
+                ]
+            },
+            3: {
+                label: "第3文型：SVO",
+                desc: "S（主語）は O（目的語）を V（動詞）する、という構造。S ≠ O（主語と目的語は別物）の関係になります。",
+                trick: "第2文型（SVC）と第3文型（SVO）の区別がテストでよく狙われます。動詞の後ろの言葉が、主語と「イコール」なら第2文型、イコールでなければ第3文型です。例：I like tennis. (I ≠ tennis なので第3文型)",
+                words: [
+                    { t: "They", c: "bg-red-50 text-red-800 border-red-200", s: "S" },
+                    { t: "play", c: "bg-blue-50 text-blue-800 border-blue-200", s: "V" },
+                    { t: "soccer.", c: "bg-emerald-50 text-emerald-800 border-emerald-200", s: "O" }
+                ]
+            },
+            4: {
+                label: "第4文型：SVOO",
+                desc: "動詞の後ろに、目的語（O）が2つ並びます。原則として「Sは『人（O₁）』に『物（O₂）』を与える」という構造になります。",
+                trick: "与える動詞（giveやshow、buyなど）が使われ、<strong>[ S + V + 人 + 物 ]</strong> の順番になります。前置詞を使って第3文型 [ S + V + 物 + to/for + 人 ] に書き換える問題が超頻出です！",
+                words: [
+                    { t: "He", c: "bg-red-50 text-red-800 border-red-200", s: "S" },
+                    { t: "gave", c: "bg-blue-50 text-blue-800 border-blue-200", s: "V" },
+                    { t: "me", c: "bg-emerald-50 text-emerald-800 border-emerald-200", s: "O (人)" },
+                    { t: "a present.",  c: "bg-emerald-50 text-emerald-800 border-emerald-200", s: "O (物)" }
+                ]
+            },
+            5: {
+                label: "第5文型：SVOC",
+                desc: "O（目的語）と C（補語）の間に「O ＝ C」の関係（主語と述語のような関係）が成立します。",
+                trick: "動詞（make, call, name, keepなど）が使われ、「OをCの状態にする/呼ぶ」という意味になります。例：The news made me happy. (me ＝ happyの関係) 第4文型と違い、後ろの2語が「イコール」になります。",
+                words: [
+                    { t: "We", c: "bg-red-50 text-red-800 border-red-200", s: "S" },
+                    { t: "call", c: "bg-blue-50 text-blue-800 border-blue-200", s: "V" },
+                    { t: "him", c: "bg-emerald-50 text-emerald-800 border-emerald-200", s: "O" },
+                    { t: "Ken.", c: "bg-amber-50 text-amber-800 border-amber-200", s: "C" }
+                ]
+            }
+        };
+
+        function showPattern(num) {
+            const data = patternData[num];
+            
+            // Toggle active state of buttons
+            for(let i=1; i<=5; i++) {
+                document.getElementById('btn-p'+i).className = "py-3 px-1 rounded-lg text-center font-bold border bg-white border-stone-200 text-stone-700 hover:bg-stone-50 transition-all";
+            }
+            document.getElementById('btn-p'+num).className = "py-3 px-1 rounded-lg text-center font-bold border bg-indigo-50 border-indigo-200 text-indigo-900 transition-all";
+
+            document.getElementById('pattern-num-label').textContent = data.label;
+            document.getElementById('pattern-relation-desc').innerHTML = data.desc;
+            document.getElementById('pattern-exam-trick').innerHTML = data.trick;
+
+            const container = document.getElementById('sentence-container');
+            container.innerHTML = '';
+
+            data.words.forEach(word => {
+                const box = document.createElement('div');
+                box.className = `flex flex-col items-center border p-3 rounded-lg shadow-sm ${word.c}`;
+                box.innerHTML = `
+                    <span>${word.t}</span>
+                    <span class="text-xs font-black mt-1 opacity-70">${word.s}</span>
+                `;
+                container.appendChild(box);
+            });
+        }
+
+        // 2. PRESENT PERFECT SYSTEM
+        const perfectData = {
+            'duration': {
+                arrowStyle: "left-1/4 right-0 bg-emerald-500",
+                pastNode: "left-1/4 bg-stone-400",
+                text: "過去に始まった『状態や動作』が、現在までずーっと途切れず続いているイメージ",
+                keywords: ["since (〜から)", "for (〜の間)", "How long (どのくらいの間)"],
+                example: "I have known him since last year.",
+                exampleJp: "（私は去年からずっと彼を知っています。）"
+            },
+            'experience': {
+                arrowStyle: "left-1/4 right-0 bg-amber-500/30",
+                pastNode: "left-1/4 bg-amber-500",
+                text: "生まれてから現時点にいたるまでに、その経験が『心に蓄積されて今に届いている』イメージ",
+                keywords: ["once / twice (1回/2回)", "before (以前に)", "ever (今までに)", "never (一度も〜ない)", "many times (何回も)"],
+                example: "Have you ever been to Canada?",
+                exampleJp: "（あなたはこれまでにカナダへ行ったことがありますか。）"
+            },
+            'completion': {
+                arrowStyle: "left-1/2 right-0 bg-blue-500",
+                pastNode: "left-1/2 bg-stone-400",
+                text: "過去に始まった動作が『たった今、終了して、その結果が今に残っている』イメージ",
+                keywords: ["just (ちょうど)", "already (すでに)", "yet (もう[疑問文] / まだ[否定文])"],
+                example: "I have already finished my homework.",
+                exampleJp: "（私はもう宿題を終えてしまいました。[だから今は遊べます]）"
+            }
+        };
+
+        function showPerfectUsage(usageKey) {
+            const data = perfectData[usageKey];
+
+            // Update button visual
+            ['dur', 'exp', 'comp'].forEach(k => {
+                document.getElementById(`btn-perf-${k}`).className = "w-full text-left px-4 py-3 rounded-lg border border-stone-200 bg-white text-stone-700 hover:bg-stone-50 transition-all flex justify-between items-center";
+            });
+            const keyMap = { 'duration': 'dur', 'experience': 'exp', 'completion': 'comp' };
+            document.getElementById(`btn-perf-${keyMap[usageKey]}`).className = "w-full text-left px-4 py-3 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-900 font-bold transition-all flex justify-between items-center";
+
+            // Update timeline visualization
+            const arrow = document.getElementById('timeline-arrow');
+            const pastNode = document.getElementById('node-past');
+            arrow.className = `absolute h-2 rounded-full transition-all duration-700 ${data.arrowStyle}`;
+            pastNode.className = `absolute w-4 h-4 rounded-full border-2 border-white shadow-sm transition-all duration-700 ${data.pastNode}`;
+
+            document.getElementById('timeline-text').textContent = data.text;
+            document.getElementById('perfect-example').textContent = data.example;
+            document.getElementById('perfect-example-jp').textContent = data.exampleJp;
+
+            // Update keywords list
+            const keyBox = document.getElementById('perfect-keywords');
+            keyBox.innerHTML = '';
+            data.keywords.forEach(kw => {
+                const tag = document.createElement('span');
+                tag.className = "text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-1 rounded";
+                tag.textContent = kw;
+                keyBox.appendChild(tag);
+            });
+        }
+
+        // 3. EXERCISES / FAQS SYSTEM
+        const patternFaqs = [
+            {
+                q: "「I showed my new friend the family album.」この文は第何文型ですか。S, V, O, Cに分解して答えなさい。",
+                a: "第4文型 (SVOO)",
+                exp: "S ＝ I<br>V ＝ showed<br>O(人) ＝ my new friend（私の新しい友達に）<br>O(物) ＝ the family album（家族のアルバムを）<br>※「[人]に[物]を与える」の関係が成立するため第4文型となります。"
+            },
+            {
+                q: "第4文型の文 「She bought me this camera.」を、前置詞（for / to）を使って第3文型（SVO）に書き換えなさい。",
+                a: "She bought this camera for me.",
+                exp: "buyのように「相手がいなくても自分ひとりでできる動作」は、第3文型に書き換える際、前置詞に **for** を使います。（※giveやshowのように「相手が目の前に絶対に必要」な動詞は **to** を使います）"
+            },
+            {
+                q: "「The song made me happy.」と「My father made me a beautiful desk.」はそれぞれ第何文型ですか。見分け方のコツとともに答えなさい。",
+                a: "前者が第5文型 (SVOC)、後者が第4文型 (SVOO)",
+                exp: "動詞の後ろの2つの要素の関係を調べます。<br>1. me ＝ happy（私は幸せな状態）の関係が成立するので第5文型（SVOC）です。<br>2. me ≠ a beautiful desk（私は机ではない）の関係、つまり「私『に』机『を』作った」となるため、第4文型（SVOO）です。"
+            }
+        ];
+
+        const perfectFaqs = [
+            {
+                q: "「昨日は雨がずっと降っていました。」この和文を英訳する際、現在完了形（have + p.p.）を使えないのはなぜか説明しなさい。",
+                a: "「昨日（yesterday）」という過去の一点を示す言葉があるため、現在と繋がっている「現在完了形」は使えず、過去形（It rained all day yesterday.）にする必要があるから。",
+                exp: "現在完了形は「今」に関わっている時制です。yesterday や 〜ago, last〜 など過去を特定する言葉とは一緒に使えません。"
+            },
+            {
+                q: "「He has been to Okinawa three times.」と「He has gone to Okinawa.」の意味の違いを説明しなさい。",
+                a: "前者は「彼はこれまでに3回沖縄に行ったことがある（経験）」という意味。後者は「彼は沖縄に行ってしまった（完了・結果：だから今はここにいない）」という意味。",
+                exp: "have been to 〜 は「〜へ行ったことがある（経験）」、have gone to 〜 は「〜へ行ってしまった（完了・結果）」となり、主語が I や you（話し相手）のときは went を用いるなど、書き換えや英作文で最もミスしやすい超頻出箇所です！"
+            },
+            {
+                q: "「I bought this notebook two years ago.」を、現在完了形を使って「私はこのノートを2年間ずっと使っています」という「継続」の文に書き換えなさい。（※動詞 buy を use に変えて）",
+                a: "I have used this notebook for two years.",
+                exp: "「2年間ずっと」なので、「期間」を表す **for two years** を使います。継続用法では have + 過去分詞 を使い、過去から今まで続いていることを示します。"
+            }
+        ];
+
+        function renderFaqsList(targetId, dataList) {
+            const list = document.getElementById(targetId);
+            list.innerHTML = '';
+            dataList.forEach((faq, idx) => {
+                const uniqueIdx = targetId + "_" + idx;
+                const div = document.createElement('div');
+                div.className = "border border-stone-200 rounded-lg overflow-hidden";
+                div.innerHTML = `
+                    <button class="w-full text-left px-4 py-3 bg-stone-50 hover:bg-stone-100 font-medium text-stone-800 flex justify-between items-center focus:outline-none" onclick="toggleFaq('${uniqueIdx}')">
+                        <span><span class="text-indigo-600 font-bold mr-2">Q.</span>${faq.q}</span>
+                        <span id="faq-icon-${uniqueIdx}" class="text-stone-400 ml-2">▼</span>
+                    </button>
+                    <div id="faq-content-${uniqueIdx}" class="hidden px-4 py-3 bg-white border-t border-stone-200">
+                        <p class="font-bold text-red-600 mb-2">答: <span class="font-mono text-stone-800 text-sm">${faq.a}</span></p>
+                        <p class="text-xs text-stone-600 bg-stone-50 p-2 rounded border border-stone-100"><strong>解説：</strong>${faq.exp}</p>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        // REUSE GLOBAL FAQ TOGGLER
+        function toggleFaq(uniqueIdx) {
+            const content = document.getElementById(`faq-content-${uniqueIdx}`);
+            const icon = document.getElementById(`faq-icon-${uniqueIdx}`);
+            if(content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.textContent = '▲';
+            } else {
+                content.classList.add('hidden');
+                icon.textContent = '▼';
+            }
+        }
+
+        window.onload = function() {
+            showPattern(1);
+            showPerfectUsage('duration');
+            renderFaqsList('pattern-faq-list', patternFaqs);
+            renderFaqsList('perfect-faq-list', perfectFaqs);
+        };
+    </script>
+</body>
+</html>

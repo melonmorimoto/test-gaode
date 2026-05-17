@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中3化学：原子・イオン・ダニエル電池・pH 完全攻略ガイド</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Chosen Palette: Warm neutral background (stone-50) for a calm learning environment, with teal (teal-600) for primary actions, amber (amber-500) for highlights, and distinct colors (red/blue) for positive/negative concepts. -->
+    
+    <!-- Application Structure Plan: A tabbed single-page application (SPA). This structure was chosen because chemistry concepts build sequentially but students often need to jump between topics for review. The layout separates content into 'Core Concepts' (Atoms/Electrolysis), 'Interactive Simulators' (Daniel Cell), 'Acid/Base & pH', and 'Review Materials' (Glossary, FAQ). This chunking prevents cognitive overload and encourages active exploration through interactive models rather than passive reading. -->
+    
+    <!-- Visualization & Content Choices: 
+    1. Atom Structure & Ionization: Visual card selector explaining the balance of protons, neutrons, and electrons, showing how losing/gaining electrons creates ions.
+    2. Electrolysis: Textual data mapped to interactive selection cards (HTML/CSS/JS) to show state changes without complex graphics.
+    3. Daniel Cell Simulator: Interactive container displaying zinc/copper plates, allowing users to simulate discharge and see ions (Zn2+, SO42-) passing through the unglazed pottery plate (素焼きの板).
+    4. Ionization Tendency: A Bar chart (Chart.js) visualizes 'Ionization Tendency' (abstract concept made concrete), alongside dynamic text updating the chemical equations.
+    5. Review Section: Accordions and searchable lists (HTML/JS) for quick retrieval of facts and definitions.
+    Libraries: Chart.js for dynamic graphing. NO SVG/Mermaid used. -->
+    
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: #fafaf9; 
+            color: #292524;
+        }
+
+        .returen-button{
+            display:block;
+            margin-left:auto;
+        }
+
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="bg-teal-700 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">中3化学インタラクティブ・ガイド</h1>
+            <p class="mt-1 text-teal-100 text-sm sm:text-base">原子の成り立ち・電解質・電気分解・ダニエル電池・pHまで</p>
+            <button class="return-button" onclick="location.href='index.html'">戻る</button>
+        </div>
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <ul class="flex space-x-1 overflow-x-auto hide-scrollbar text-sm sm:text-base font-medium pb-2">
+                <li><button onclick="switchTab('home')" id="tab-home" class="px-4 py-2 rounded-md bg-teal-800 text-white transition-colors whitespace-nowrap">全体の流れ</button></li>
+                <li><button onclick="switchTab('atoms')" id="tab-atoms" class="px-4 py-2 rounded-md hover:bg-teal-600 text-teal-100 transition-colors whitespace-nowrap">1. 原子の構造と電離</button></li>
+                <li><button onclick="switchTab('electrolysis')" id="tab-electrolysis" class="px-4 py-2 rounded-md hover:bg-teal-600 text-teal-100 transition-colors whitespace-nowrap">2. 電気分解のルール</button></li>
+                <li><button onclick="switchTab('battery')" id="tab-battery" class="px-4 py-2 rounded-md hover:bg-teal-600 text-teal-100 transition-colors whitespace-nowrap">3. ダニエル電池</button></li>
+                <li><button onclick="switchTab('ph')" id="tab-ph" class="px-4 py-2 rounded-md hover:bg-teal-600 text-teal-100 transition-colors whitespace-nowrap">4. 酸・アルカリとpH</button></li>
+                <li><button onclick="switchTab('review')" id="tab-review" class="px-4 py-2 rounded-md hover:bg-teal-600 text-teal-100 transition-colors whitespace-nowrap">確認テスト・一問一答</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="flex-grow max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8 w-full">
+
+        <!-- HOME TAB -->
+        <section id="home" class="tab-content active">
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-teal-800 mb-4">テスト範囲を効率よく完全攻略</h2>
+                <p class="text-stone-600 leading-relaxed mb-6">
+                    本ガイドは、中学3年理科の化学分野において、今回の試験範囲にぴったりフィットするように再構成されています。原子の内部構造（陽子・中性子・電子）から、水に溶かしたときの電離、電気分解、そして近年入試で極めて出題率の高い「ダニエル電池」の仕組み、酸・アルカリ・pHの基礎までを網羅しています。
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 bg-stone-50 rounded-lg border border-stone-100 cursor-pointer hover:shadow-md transition-shadow" onclick="switchTab('atoms')">
+                        <h3 class="font-bold text-lg text-teal-700">⚛️ 1. 原子の構造と電離</h3>
+                        <p class="text-sm text-stone-500 mt-2">原子のまわりをまわる電子の移動と、電解質・非電解質の違い、水中でイオンに分かれる電離を学びます。</p>
+                    </div>
+                    <div class="p-4 bg-stone-50 rounded-lg border border-stone-100 cursor-pointer hover:shadow-md transition-shadow" onclick="switchTab('electrolysis')">
+                        <h3 class="font-bold text-lg text-teal-700">⚡ 2. 電気分解のルール</h3>
+                        <p class="text-sm text-stone-500 mt-2">塩化銅水溶液や塩酸に電流を流したとき、マイナス極・プラス極で起こる電子のやり取りを可視化します。</p>
+                    </div>
+                    <div class="p-4 bg-stone-50 rounded-lg border border-stone-100 cursor-pointer hover:shadow-md transition-shadow" onclick="switchTab('battery')">
+                        <h3 class="font-bold text-lg text-teal-700">🔋 3. ダニエル電池</h3>
+                        <p class="text-sm text-stone-500 mt-2">セロハンや素焼きの板をすり抜けるイオンの移動や、電極での化学反応式をシミュレートします。</p>
+                    </div>
+                    <div class="p-4 bg-stone-50 rounded-lg border border-stone-100 cursor-pointer hover:shadow-md transition-shadow" onclick="switchTab('ph')">
+                        <h3 class="font-bold text-lg text-teal-700">🧪 4. 酸・アルカリとpH</h3>
+                        <p class="text-sm text-stone-500 mt-2">酸性とアルカリ性を示すイオンの正体、リトマス紙や指示薬の色変化、pH（水素イオン指数）を整理します。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: ATOMS & IONIZATION -->
+        <section id="atoms" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-teal-800 mb-2">1. 原子の構造、電解質、そして電離</h2>
+                <p class="text-stone-600 leading-relaxed">
+                    化学変化の本質は「電子のやり取り」です。まずは原子がどのような粒子からできているか、そして水の中でイオンに分かれる物質（電解質）の性質を深く理解しましょう。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- ATOM STRUCTURE -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-xl font-bold text-stone-800 border-b-2 border-teal-100 pb-2 mb-4">原子の成り立ち</h3>
+                    <p class="text-sm text-stone-600 mb-4 font-medium">原子は電気的に中性（電気を帯びていない）ですが、その内部は以下のような電気を持つ小さな粒子で構成されています。</p>
+                    
+                    <div class="space-y-3">
+                        <div class="p-3 bg-red-50 rounded-lg border border-red-100">
+                            <h4 class="font-bold text-red-800">陽子 (ようし) <span class="text-xs bg-red-200 px-2 py-0.5 rounded ml-2">プラスの電気（＋）</span></h4>
+                            <p class="text-xs text-stone-600 mt-1">原子の中心にある「原子核」の中に存在します。陽子の数は原子番号と完全に一致します。</p>
+                        </div>
+                        <div class="p-3 bg-stone-100 rounded-lg border border-stone-200">
+                            <h4 class="font-bold text-stone-800">中性子 (ちゅうせいし) <span class="text-xs bg-stone-200 px-2 py-0.5 rounded ml-2">電気を帯びていない</span></h4>
+                            <p class="text-xs text-stone-600 mt-1">陽子とともに「原子核」を形づくります。重さは陽子とほぼ同じです。</p>
+                        </div>
+                        <div class="p-3 bg-blue-50 rounded-lg border border-blue-100">
+                            <h4 class="font-bold text-blue-800">電子 (でんし) <span class="text-xs bg-blue-200 px-2 py-0.5 rounded ml-2">マイナスの電気（－）</span></h4>
+                            <p class="text-xs text-stone-600 mt-1">原子核のまわりを高速でまわっています。非常に軽いです。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 p-3 bg-amber-50 rounded border border-amber-100 text-xs text-amber-900 leading-relaxed">
+                        🌟 <strong>陽子の数 ＝ 電子の数</strong> であるため、プラスとマイナスの電気がぴったり打ち消し合い、原子そのものは電気を帯びていません。電子を失うと<strong>陽イオン</strong>になり、電子を受け取ると<strong>陰イオン</strong>になります。
+                    </div>
+                </div>
+
+                <!-- ELECTROLYTES VS NON-ELECTROLYTES -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-stone-800 border-b-2 border-teal-100 pb-2 mb-4">電解質 と 非電解質</h3>
+                        <p class="text-sm text-stone-600 mb-4">水に溶かしたときに「電離してイオンになるか」が、電流を流すかどうかの違いになります。</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+                                <h4 class="font-bold text-emerald-800 text-base mb-1">電解質 (でんかいしつ)</h4>
+                                <span class="text-xs text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded">水に溶かすと電流が流れる</span>
+                                <p class="text-xs text-stone-600 mt-2">水中で陽イオンと陰イオンに<strong>電離</strong>するため、電気の運び手ができて電流が流れます。</p>
+                                <ul class="list-disc list-inside text-xs text-stone-500 mt-2 font-mono">
+                                    <li>塩化ナトリウム (NaCl)</li>
+                                    <li>塩化銅 (CuCl2)</li>
+                                    <li>塩化水素 (HCl)</li>
+                                </ul>
+                            </div>
+                            <div class="p-4 bg-amber-50 rounded-lg border border-amber-200">
+                                <h4 class="font-bold text-amber-800 text-base mb-1">非電解質 (ひでんかいしつ)</h4>
+                                <span class="text-xs text-amber-600 bg-amber-100 px-2 py-0.5 rounded">溶かしても電流が流れない</span>
+                                <p class="text-xs text-stone-600 mt-2">水に溶けても分子（塊）のままで電離しないため、電気が流れません。</p>
+                                <ul class="list-disc list-inside text-xs text-stone-500 mt-2 font-mono">
+                                    <li>砂糖 (スクロース)</li>
+                                    <li>エタノール</li>
+                                    <li>蒸留水 (純粋な水)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-3 bg-stone-100 rounded border border-stone-200 text-xs text-stone-600 mt-4">
+                        💡 <strong>電離の式を覚えよう:</strong><br>
+                        塩化銅の電離: <span class="font-mono font-bold">CuCl₂ → Cu²⁺ + 2Cl⁻</span><br>
+                        塩化水素の電離: <span class="font-mono font-bold">HCl → H⁺ + Cl⁻</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: ELECTROLYSIS -->
+        <section id="electrolysis" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-teal-800 mb-2">2. 電気分解のルールと極板での反応</h2>
+                <p class="text-stone-600 leading-relaxed">
+                    電気分解は、電解質水溶液に外部から電流を流し、強制的に電子をやり取りさせて物質を分解する反応です。「陰極はマイナス」「陽極はプラス」の電気的な引力を軸に整理しましょう。
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 mb-8">
+                <h3 class="text-xl font-bold text-stone-800 border-b-2 border-teal-100 pb-2 mb-4">電気分解の極板反応シミュレーション</h3>
+                <p class="text-sm text-stone-600 mb-4">水溶液を切り替えて、それぞれの極板（陰極・陽極）にどのイオンが引き寄せられ、どのような反応式が成り立つか確認しましょう。</p>
+                
+                <div class="mb-6 max-w-xs">
+                    <label for="electrolysis-select" class="block text-sm font-medium text-stone-700 mb-1">電気分解する水溶液を選択:</label>
+                    <select id="electrolysis-select" onchange="updateElectrolysis()" class="block w-full rounded-md border-stone-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 p-2 border bg-stone-50 font-bold">
+                        <option value="cucl2">塩化銅水溶液 (CuCl₂)</option>
+                        <option value="hcl">塩酸 (HCl)</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- CATHODE CARD -->
+                    <div class="bg-blue-50/50 rounded-xl p-6 border border-blue-100">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="text-lg font-bold text-blue-900">陰極 (いんきょく) <span class="text-2xl ml-1">⊖</span></h4>
+                            <span class="text-xs bg-blue-200 text-blue-800 px-2.5 py-1 rounded-full font-bold">電源のマイナス極と接続</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div>
+                                <span class="text-xs text-stone-500">引き寄せられるイオン:</span>
+                                <div id="elec-cathode-ion" class="text-xl font-bold text-blue-700 font-mono">Cu²⁺ (陽イオン)</div>
+                            </div>
+                            <div>
+                                <span class="text-xs text-stone-500">極板での電子のやり取り:</span>
+                                <p class="text-xs text-stone-600 mb-1">電子を**受け取る**反応が起こります。</p>
+                                <div id="elec-cathode-reaction" class="text-base font-mono bg-white p-3 rounded-md border border-blue-200 font-bold">Cu²⁺ + 2e⁻ → Cu</div>
+                            </div>
+                            <div>
+                                <span class="text-xs text-stone-500">得られる物質と観察される変化:</span>
+                                <div id="elec-cathode-result" class="text-sm font-bold text-stone-800 mt-1">赤褐色の金属（銅）が電極に付着する</div>
+                                <p id="elec-cathode-desc" class="text-xs text-stone-500 mt-1">※この反応に伴い、水溶液中に溶けていた銅イオン（青色）が消費されるため、水溶液の青色は徐々に薄くなります。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ANODE CARD -->
+                    <div class="bg-red-50/50 rounded-xl p-6 border border-red-100">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="text-lg font-bold text-red-900">陽極 (ようきょく) <span class="text-2xl ml-1">⊕</span></h4>
+                            <span class="text-xs bg-red-200 text-red-800 px-2.5 py-1 rounded-full font-bold">電源のプラス極と接続</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div>
+                                <span class="text-xs text-stone-500">引き寄せられるイオン:</span>
+                                <div id="elec-anode-ion" class="text-xl font-bold text-red-700 font-mono">Cl⁻ (陰イオン)</div>
+                            </div>
+                            <div>
+                                <span class="text-xs text-stone-500">極板での電子のやり取り:</span>
+                                <p class="text-xs text-stone-600 mb-1">電子を**奪われる（放出する）**反応が起こります。</p>
+                                <div id="elec-anode-reaction" class="text-base font-mono bg-white p-3 rounded-md border border-red-200 font-bold">2Cl⁻ → Cl₂ + 2e⁻</div>
+                            </div>
+                            <div>
+                                <span class="text-xs text-stone-500">得られる物質と観察される変化:</span>
+                                <div id="elec-anode-result" class="text-sm font-bold text-stone-800 mt-1">塩素の気体が発生する</div>
+                                <p id="elec-anode-desc" class="text-xs text-stone-500 mt-1">※プールの消毒液のような特有の刺激臭があり、漂白作用（赤インクを脱色する）を持ちます。水に非常によく溶けます。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: DANIEL CELL -->
+        <section id="battery" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-teal-800 mb-2">3. ダニエル電池の仕組みとイオンの移動</h2>
+                <p class="text-stone-600 leading-relaxed">
+                    従来のボルタ電池の弱点（発生した水素ガスの気泡が電極を覆って急激に電圧が低下する）を克服するために、素焼きの板で2種類のエタノール電解液を仕切ったのが**ダニエル電池**です。テストで最も差がつくイオンの動きを動かしてマスターしましょう。
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 mb-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- LEFT SIDE: METAL SELECTION & STATS -->
+                    <div class="lg:col-span-4 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold text-stone-800 mb-4">電極と電解液の設定</h3>
+                            <div class="space-y-4">
+                                <div class="p-3 bg-blue-50/50 rounded-lg border border-blue-100">
+                                    <h4 class="font-bold text-blue-900 text-sm">－極（亜鉛板側）</h4>
+                                    <p class="text-xs text-stone-600 mt-1">電解液：<strong>硫酸亜鉛水溶液 ($ZnSO_4$)</strong></p>
+                                    <p class="text-xs text-stone-500">亜鉛は銅よりもイオンになりやすいため、自ら溶け出して電子を導線に送り出します。</p>
+                                </div>
+                                <div class="p-3 bg-red-50/50 rounded-lg border border-red-100">
+                                    <h4 class="font-bold text-red-900 text-sm">＋極（銅板側）</h4>
+                                    <p class="text-xs text-stone-600 mt-1">電解液：<strong>硫酸銅水溶液 ($CuSO_4$)</strong></p>
+                                    <p class="text-xs text-stone-500">送られてきた電子を、水溶液中の銅イオン（$Cu^{2+}$）が受け取って、金属の銅となって析出します。</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SIMULATOR CONTROLS -->
+                        <div class="mt-6 p-4 bg-stone-50 rounded-lg border border-stone-200">
+                            <h4 class="font-bold text-stone-800 text-sm mb-2 text-center">放電のシミュレーション</h4>
+                            <div class="flex space-x-2">
+                                <button onclick="startDischarge()" id="btn-discharge-start" class="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded transition-all text-sm">放電スタート</button>
+                                <button onclick="resetDischarge()" class="flex-1 bg-stone-300 hover:bg-stone-400 text-stone-700 font-bold py-2 px-4 rounded transition-all text-sm">リセット</button>
+                            </div>
+                            <p id="discharge-status" class="text-center text-xs text-stone-500 mt-2">「放電スタート」を押すとイオンが動き出します</p>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT SIDE: INTERACTIVE SIMULATOR CONTAINER -->
+                    <div class="lg:col-span-8 flex flex-col justify-center">
+                        <div class="relative w-full border-2 border-stone-300 bg-blue-50/50 rounded-xl h-80 overflow-hidden flex justify-between px-6 py-4">
+                            <!-- ANODE / CATHODE REGIONS -->
+                            <div class="w-1/2 flex flex-col justify-end items-center h-full border-r border-dashed border-stone-400 relative">
+                                <span class="absolute top-2 left-2 text-xs font-bold text-stone-400">－極側 (硫酸亜鉛水溶液)</span>
+                                
+                                <!-- Zn Plate -->
+                                <div class="w-16 h-3/5 bg-slate-300 border-2 border-stone-600 rounded-t-sm flex items-center justify-center text-stone-800 font-bold text-lg relative" id="zinc-plate">
+                                    Zn
+                                    <div class="absolute -top-8 bg-blue-600 text-white px-2 py-0.5 text-xs rounded font-bold shadow-sm">－極</div>
+                                </div>
+                                <div class="absolute left-4 top-1/2 transform -translate-y-1/2 flex flex-col space-y-2 text-xs text-blue-800" id="zinc-ions-visual">
+                                    <span class="bg-white/80 px-1 py-0.5 rounded shadow-sm font-bold font-mono">Zn²⁺</span>
+                                    <span class="bg-white/80 px-1 py-0.5 rounded shadow-sm font-bold font-mono">Zn²⁺</span>
+                                </div>
+                            </div>
+
+                            <!-- UNGLAZED POTTERY PLATE (素焼きの板) -->
+                            <div class="absolute left-1/2 top-0 bottom-0 w-4 bg-amber-100/80 border-l border-r border-amber-300 z-20 flex flex-col items-center justify-center pointer-events-none">
+                                <div class="text-[9px] font-bold text-amber-800 tracking-wider rotate-90 whitespace-nowrap">素焼きの板</div>
+                            </div>
+
+                            <div class="w-1/2 flex flex-col justify-end items-center h-full relative">
+                                <span class="absolute top-2 right-2 text-xs font-bold text-stone-400">＋極側 (硫酸銅水溶液)</span>
+                                
+                                <!-- Cu Plate -->
+                                <div class="w-16 h-3/5 bg-amber-600 border-2 border-stone-600 rounded-t-sm flex items-center justify-center text-white font-bold text-lg relative" id="copper-plate">
+                                    Cu
+                                    <div class="absolute -top-8 bg-red-600 text-white px-2 py-0.5 text-xs rounded font-bold shadow-sm">＋極</div>
+                                </div>
+                                <div class="absolute right-4 top-1/2 transform -translate-y-1/2 flex flex-col space-y-2 text-xs text-red-800" id="copper-ions-visual">
+                                    <span class="bg-white/80 px-1 py-0.5 rounded shadow-sm font-bold font-mono" id="cu-ion-1">Cu²⁺</span>
+                                    <span class="bg-white/80 px-1 py-0.5 rounded shadow-sm font-bold font-mono" id="cu-ion-2">Cu²⁺</span>
+                                </div>
+                            </div>
+                            
+                            <!-- ELECTRON FLOW INDICATOR -->
+                            <div class="absolute top-4 left-1/2 transform -translate-x-1/2 z-30 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md hidden" id="electron-flow">
+                                電子(e⁻)は ───&gt; ＋極へ移動
+                            </div>
+                        </div>
+
+                        <!-- ELECTRODE CHEMICAL EQUATIONS -->
+                        <div class="grid grid-cols-2 gap-4 mt-4">
+                            <div class="bg-white p-3 rounded border border-stone-200 shadow-sm">
+                                <p class="text-xs text-stone-500 font-bold">－極（亜鉛板）の電極反応式</p>
+                                <p class="font-mono text-sm mt-1 text-blue-700 font-bold">Zn → Zn²⁺ + 2e⁻</p>
+                                <p class="text-[10px] text-stone-500 mt-1">亜鉛が溶けて、導線に電子を2つ放出します。</p>
+                            </div>
+                            <div class="bg-white p-3 rounded border border-stone-200 shadow-sm">
+                                <p class="text-xs text-stone-500 font-bold">＋極（銅板）の電極反応式</p>
+                                <p class="font-mono text-sm mt-1 text-red-700 font-bold">Cu²⁺ + 2e⁻ → Cu</p>
+                                <p class="text-[10px] text-stone-500 mt-1">水中の銅イオンが電子を受け取り、銅が析出します。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- IMPORTANT MECHANISMS -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-xl font-bold text-stone-800 border-b-2 border-teal-100 pb-2 mb-4">素焼きの板（セロハン）を抜ける「イオンの移動」</h3>
+                    <p class="text-sm text-stone-600 mb-4">放電を続けると、両側の電気的バランスが偏ります。それを解消するため、目に見えない微細な穴を通ってイオンが移動します。</p>
+                    
+                    <div class="space-y-3 text-xs sm:text-sm">
+                        <div class="p-3 bg-blue-50 rounded border-l-4 border-blue-500">
+                            <strong>陽イオンの移動：</strong> －極側で亜鉛イオン（$Zn^{2+}$）がどんどん増えて過剰になるため、素焼きの板をすり抜けて <strong>＋極（右）側へと移動</strong> します。
+                        </div>
+                        <div class="p-3 bg-red-50 rounded border-l-4 border-red-500">
+                            <strong>陰イオンの移動：</strong> ＋極側で銅イオン（$Cu^{2+}$）が析出して消費され、硫酸イオン（$SO_4^{2-}$）が余るため、これが素焼きの板をすり抜けて <strong>－極（左）側へと移動</strong> します。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IONIZATION TENDENCY CHART -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-xl font-bold text-stone-800 mb-4">参考：金属のイオンになりやすさ（イオン化傾向）</h3>
+                    <p class="text-xs text-stone-500 mb-2">イオンになりやすい（＝電子を放出して溶けやすい）順序です。この「差」が大きいほど、電池から大きな電圧を取り出すことができます。</p>
+                    <div class="chart-container" style="height: 250px;">
+                        <canvas id="ionizationChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: ACID, BASE & PH -->
+        <section id="ph" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-teal-800 mb-2">4. 酸・アルカリの正体とpH</h2>
+                <p class="text-stone-600 leading-relaxed">
+                    水溶液の性質を決めるのは、溶けている特定のイオンです。酸性とアルカリ性を示すイオンの正体を突き止め、その強さを表す物差しである「pH（水素イオン指数）」について整理しましょう。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- ACID & BASE NATURE -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-xl font-bold text-stone-800 border-b-2 border-teal-100 pb-2 mb-4">酸性とアルカリ性の原因</h3>
+                    <p class="text-sm text-stone-600 mb-4">水溶液中にある共通のイオンが存在することで、酸性やアルカリ性の特徴的な性質が現れます。</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                        <!-- ACID -->
+                        <div class="p-4 bg-red-50 rounded-lg border border-red-200">
+                            <h4 class="font-bold text-red-900 text-base mb-1">酸性の原因: $H^+$</h4>
+                            <span class="text-xs text-red-600 bg-red-100 px-2 py-0.5 rounded font-bold font-mono">水素イオン</span>
+                            <ul class="list-disc list-inside text-stone-700 mt-3 space-y-1">
+                                <li>青色リトマス紙を<strong>赤色</strong>に変える。</li>
+                                <li>マグネシウムなどの金属を溶かして<strong>水素</strong>を発生させる。</li>
+                                <li>BTB溶液を<strong>黄色</strong>に変える。</li>
+                            </ul>
+                        </div>
+                        <!-- BASE -->
+                        <div class="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                            <h4 class="font-bold text-blue-900 text-base mb-1">アルカリ性の原因: $OH^-$</h4>
+                            <span class="text-xs text-blue-600 bg-blue-100 px-2 py-0.5 rounded font-bold font-mono">水酸化物イオン</span>
+                            <ul class="list-disc list-inside text-stone-700 mt-3 space-y-1">
+                                <li>赤色リトマス紙を<strong>青色</strong>に変える。</li>
+                                <li>フェノールフタレーン溶液を<strong>赤色</strong>に変える。</li>
+                                <li>BTB溶液を<strong>青色</strong>に変える。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PH SCALE -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-stone-800 border-b-2 border-teal-100 pb-2 mb-4">pH（水素イオン指数）の基準</h3>
+                        <p class="text-sm text-stone-600 mb-4">pHは、水溶液の酸性・アルカリ性の強さを $0 \sim 14$ の数値で表したものです。</p>
+                        
+                        <!-- VISUAL PH BAR -->
+                        <div class="relative w-full h-8 rounded-md mb-4 flex overflow-hidden border border-stone-300 font-bold text-xs text-white">
+                            <div class="w-1/3 bg-red-500 flex items-center justify-center">酸性 (pH &lt; 7)</div>
+                            <div class="w-1/6 bg-emerald-500 flex items-center justify-center">中性 (7)</div>
+                            <div class="w-1/2 bg-blue-600 flex items-center justify-center">アルカリ性 (pH &gt; 7)</div>
+                        </div>
+
+                        <div class="space-y-2 text-xs text-stone-700 leading-relaxed">
+                            <p>🟢 <strong>pH = 7 (中性):</strong> 蒸留水など。水素イオンと水酸化物イオンのバランスが均等な状態です。</p>
+                            <p>🔴 <strong>pH &lt; 7 (酸性):</strong> 数値が小さくなればなるほど、水溶液中の水素イオン（$H^+$）の濃度が高くなり、酸性が強くなります。</p>
+                            <p>🔵 <strong>pH &gt; 7 (アルカリ性):</strong> 数値が大きくなればなるほど、水酸化物イオン（$OH^-$）の濃度が高くなり、アルカリ性が強くなります。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 p-3 bg-stone-100 rounded border border-stone-200 text-xs text-stone-500">
+                        ⚠️ <strong>注意：</strong>「中和」はこの性質を打ち消し合って水（$H_2O$）を作る反応ですが、今回は試験範囲対象外ですので、この基礎的な性質の区別を完璧にしておきましょう！
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: REVIEW & TEST -->
+        <section id="review" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-teal-800 mb-2">一問一答・確認テスト</h2>
+                <p class="text-stone-600 leading-relaxed">
+                    電解質・原子の構造・ダニエル電池・pHの基礎について、テストに本当によく出る問題を用意しました。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- VOCABULARY ACCORDION LIST -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-stone-800">重要語句 (Vocabulary)</h3>
+                        <input type="text" id="vocab-search" placeholder="用語を検索..." onkeyup="filterVocab()" class="border border-stone-300 rounded px-3 py-1 text-sm focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500">
+                    </div>
+                    <div class="max-h-96 overflow-y-auto pr-2" id="vocab-list">
+                    </div>
+                </div>
+
+                <!-- KEY QUESTIONS SECTION (FAQ STYLE) -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-xl font-bold text-stone-800 mb-4">入試・テスト頻出 記述トレーニング</h3>
+                    <p class="text-sm text-stone-600 mb-4">問題をクリックすると解答と詳しい解説が表示されます。</p>
+                    <div class="space-y-3" id="faq-list">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-800 text-stone-300 py-6 text-center text-sm mt-auto">
+        <p>中学校3年 理科（化学分野） 学習ガイド | 原子・電離・ダニエル電池・pH</p>
+    </footer>
+
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.remove('bg-teal-800', 'text-white');
+                btn.classList.add('text-teal-100', 'hover:bg-teal-600');
+            });
+            
+            document.getElementById(tabId).classList.add('active');
+            
+            const activeBtn = document.getElementById('tab-' + tabId);
+            activeBtn.classList.remove('text-teal-100', 'hover:bg-teal-600');
+            activeBtn.classList.add('bg-teal-800', 'text-white');
+            
+            if (tabId === 'battery') {
+                initIonizationChart();
+            }
+        }
+
+        // 1. ELECTROLYSIS UPDATE SYSTEM
+        function updateElectrolysis() {
+            const val = document.getElementById('electrolysis-select').value;
+            const cIon = document.getElementById('elec-cathode-ion');
+            const cRx = document.getElementById('elec-cathode-reaction');
+            const cRes = document.getElementById('elec-cathode-result');
+            const cDesc = document.getElementById('elec-cathode-desc');
+            const aIon = document.getElementById('elec-anode-ion');
+            const aRx = document.getElementById('elec-anode-reaction');
+            const aRes = document.getElementById('elec-anode-result');
+            const aDesc = document.getElementById('elec-anode-desc');
+
+            if(val === 'hcl') {
+                cIon.textContent = 'H⁺ (水素イオン)';
+                cRx.textContent = '2H⁺ + 2e⁻ → H₂';
+                cRes.textContent = '水素ガスが発生する';
+                cDesc.textContent = '陰極のまわりに気泡が発生します。マッチの火を近づけると、音を立てて燃えます。';
+                
+                aIon.textContent = 'Cl⁻ (塩化物イオン)';
+                aRx.textContent = '2Cl⁻ → Cl₂ + 2e⁻';
+                aRes.textContent = '塩素の気体が発生する';
+                aDesc.textContent = '独特なプールの消毒液のような刺激臭があり、赤インクを脱色する漂白作用を持ちます。水に非常によく溶けます。';
+            } else {
+                cIon.textContent = 'Cu²⁺ (銅イオン)';
+                cRx.textContent = 'Cu²⁺ + 2e⁻ → Cu';
+                cRes.textContent = '赤褐色の金属（銅）が電極に付着する';
+                cDesc.textContent = '水溶液に溶けていた銅イオン（青色）が消費されるため、溶液の青色は徐々に薄くなります。';
+                
+                aIon.textContent = 'Cl⁻ (塩化物イオン)';
+                aRx.textContent = '2Cl⁻ → Cl₂ + 2e⁻';
+                aRes.textContent = '塩素の気体が発生する';
+                aDesc.textContent = '独特なプールの消毒液のような刺激臭があり、赤インクを脱色する漂白作用を持ちます。水に非常によく溶けます。';
+            }
+        }
+
+        // 2. DISCHARGE SIMULATION FOR DANIEL CELL
+        let dischargeTimer = null;
+        function startDischarge() {
+            resetDischarge();
+            document.getElementById('electron-flow').classList.remove('hidden');
+            document.getElementById('discharge-status').innerHTML = "⚡ <strong>放電中:</strong> －極で亜鉛が溶け出し、＋極で銅が析出しています。素焼きの板を通ってイオンの移動が起こっています。";
+            
+            // Move some visual markers
+            document.getElementById('zinc-plate').className += " opacity-80 scale-95 border-dashed";
+            document.getElementById('copper-plate').className += " border-red-500 shadow-lg scale-105";
+            
+            const cuIon1 = document.getElementById('cu-ion-1');
+            const cuIon2 = document.getElementById('cu-ion-2');
+            if(cuIon1 && cuIon2) {
+                cuIon1.textContent = "Cu (付着中)";
+                cuIon1.className = "bg-red-400 text-white px-1 py-0.5 rounded shadow-sm font-bold font-mono transition-all duration-1000";
+                cuIon2.textContent = "Cu (付着中)";
+                cuIon2.className = "bg-red-400 text-white px-1 py-0.5 rounded shadow-sm font-bold font-mono transition-all duration-1000";
+            }
+        }
+
+        function resetDischarge() {
+            document.getElementById('electron-flow').classList.add('hidden');
+            document.getElementById('discharge-status').textContent = "「放電スタート」を押すとイオンが動き出します";
+            
+            document.getElementById('zinc-plate').className = "w-16 h-3/5 bg-slate-300 border-2 border-stone-600 rounded-t-sm flex items-center justify-center text-stone-800 font-bold text-lg relative";
+            document.getElementById('copper-plate').className = "w-16 h-3/5 bg-amber-600 border-2 border-stone-600 rounded-t-sm flex items-center justify-center text-white font-bold text-lg relative";
+            
+            const cuIon1 = document.getElementById('cu-ion-1');
+            const cuIon2 = document.getElementById('cu-ion-2');
+            if(cuIon1 && cuIon2) {
+                cuIon1.textContent = "Cu²⁺";
+                cuIon1.className = "bg-white/80 px-1 py-0.5 rounded shadow-sm font-bold font-mono text-red-800";
+                cuIon2.textContent = "Cu²⁺";
+                cuIon2.className = "bg-white/80 px-1 py-0.5 rounded shadow-sm font-bold font-mono text-red-800";
+            }
+        }
+
+        // 3. IONIZATION CHART
+        let isIonizationChartInitialized = false;
+        let ionizationChartInstance = null;
+        function initIonizationChart() {
+            if (isIonizationChartInitialized) return;
+            const ctx = document.getElementById('ionizationChart');
+            if (!ctx) return;
+            isIonizationChartInitialized = true;
+            
+            ionizationChartInstance = new Chart(ctx.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['マグネシウム (Mg)', '亜鉛 (Zn)', '鉄 (Fe)', '銅 (Cu)'],
+                    datasets: [{
+                        label: 'イオンになりやすさ（イオン化傾向）',
+                        data: [4, 3, 2, 1],
+                        backgroundColor: [
+                            'rgba(245, 158, 11, 0.7)',
+                            'rgba(245, 158, 11, 0.5)',
+                            'rgba(245, 158, 11, 0.3)',
+                            'rgba(245, 158, 11, 0.1)'
+                        ],
+                        borderColor: 'rgb(217, 119, 6)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            display: false 
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ' はこの中で ' + context.raw + ' 番目にイオンになりやすい';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // 4. VOCABULARY DATA
+        const vocabulary = [
+            { term: "原子核 (Atomic nucleus)", def: "原子の中心にあり、陽子と中性子からなるプラスの電気を持った部分。" },
+            { term: "陽子 (Proton)", def: "原子核を構成する粒子の1つで、プラス（＋）の電気を持つ。陽子の数＝原子番号となる。" },
+            { term: "中性子 (Neutron)", def: "原子核を構成する粒子の1つで、電気を持たない。" },
+            { term: "電子 (Electron)", def: "原子核のまわりをまわる非常に軽い粒子。マイナス（－）の電気を持つ。" },
+            { term: "電解質 (Electrolyte)", def: "水に溶かしたときに電離して、電流を流す性質のある物質。（例：塩化ナトリウム、塩化銅、塩化水素）" },
+            { term: "非電解質 (Non-electrolyte)", def: "水に溶かしても電離せず、電流を流さない性質のある物質。（例：砂糖、エタノール）" },
+            { term: "電離 (Dissociation)", def: "電解質が水に溶けて、陽イオンと陰イオンに分かれる現象。" },
+            { term: "ダニエル電池 (Daniell cell)", def: "硫酸亜鉛水溶液に亜鉛板、硫酸銅水溶液に銅板を浸し、素焼きの板で仕切った電池。長持ちする特徴がある。" },
+            { term: "素焼きの板（仕切り）", def: "ダニエル電池で、2つの電解液が直接混ざるのを防ぎながら、イオンを通過させて電流を流すための多孔質の仕切り。" },
+            { term: "酸性 (Acidity)", def: "水溶液中に共通して存在する水素イオン（H⁺）が原因で示す性質。青色リトマス紙を赤に変え、金属を溶かして水素を作る。" },
+            { term: "アルカリ性 (Alkalinity)", def: "水溶液中に共通して存在する水酸化物イオン（OH⁻）が原因で示す性質。赤色リトマス紙を青に変え、フェノールフタレーンを赤にする。" },
+            { term: "pH (水素イオン指数)", def: "酸性・アルカリ性の強さを表す0〜14の数値。7が中性、それ未満が酸性、それを超えるとアルカリ性。" }
+        ];
+
+        function renderVocab(filterText = "") {
+            const list = document.getElementById('vocab-list');
+            list.innerHTML = '';
+            
+            const filtered = vocabulary.filter(v => v.term.toLowerCase().includes(filterText.toLowerCase()) || v.def.includes(filterText));
+            
+            if(filtered.length === 0) {
+                list.innerHTML = '<p class="text-sm text-stone-500 py-2">見つかりませんでした。</p>';
+                return;
+            }
+
+            filtered.forEach(item => {
+                const div = document.createElement('div');
+                div.className = "mb-4 pb-4 border-b border-stone-100 last:border-0";
+                div.innerHTML = `
+                    <h4 class="font-bold text-teal-700">${item.term}</h4>
+                    <p class="text-sm text-stone-600 mt-1">${item.def}</p>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function filterVocab() {
+            const text = document.getElementById('vocab-search').value;
+            renderVocab(text);
+        }
+
+        // 5. TEST QUESTIONS (FAQ STYLE)
+        const faqs = [
+            {
+                q: "原子が電気的に「中性（電気を帯びていない）」である理由を、原子核を構成する粒子とまわりの粒子の数に着目して説明しなさい。",
+                a: "原子の中心にある原子核中の『陽子の数（プラス電気）』と、そのまわりをまわる『電子の数（マイナス電気）』が等しいため、プラスとマイナスの電気が完全に打ち消し合っているから。",
+                exp: "原子構造の基本です。陽子の数＝電子の数、という等価性を記述に盛り込みましょう。"
+            },
+            {
+                q: "砂糖が水に溶けても電流を流さない「非電解質」に分類される理由を、電離の観点から説明しなさい。",
+                a: "砂糖は水に溶けても電離せず、陽イオンと陰イオンに分かれないため、水溶液中に電気を運ぶイオンが全く存在しないから。",
+                exp: "電流を流すには、電気を運ぶ「イオン」の存在が不可欠です。電離しない非電解質は、分子の塊のままで水に溶けるため電気を流しません。"
+            },
+            {
+                q: "ダニエル電池をしばらく使い続けると、電極の亜鉛板の質量（重さ）は減少し、銅板の質量は増加します。それぞれの電極で起こっている化学変化をイオンの観点から説明しなさい。",
+                a: "－極の亜鉛板では、亜鉛原子が電子を放出して亜鉛イオン（Zn²⁺）となって水に溶けるため質量が減少する。＋極の銅板では、水中の銅イオン（Cu²⁺）が電子を受け取って金属の銅（Cu）として析出して表面に付着するため質量が増加する。",
+                exp: "亜鉛板での「溶解反応」と、銅板での「析出反応」をイオン・電子のやり取りと結びつけて完璧に説明できるようにしましょう。"
+            },
+            {
+                q: "ダニエル電池で、2つの電解液（硫酸亜鉛と硫酸銅）を「素焼きの板」で仕切る理由を2点説明しなさい。",
+                a: "1. 2つの電解液が直接混ざり合ってしまうのを防ぐため。\n2. 電気が流れるように、素焼きの板の細孔を通してイオンを通過させるため。",
+                exp: "もし混ざってしまうと、－極の亜鉛板の表面に直接銅イオンが引き寄せられて銅が付着してしまい、導線に電子が流れなくなって（電池として機能しなくなって）しまいます。"
+            },
+            {
+                q: "ダニエル電池が放電しているとき、仕切りの素焼きの板を通過して、右（硫酸銅）から左（硫酸亜鉛）へ移動する「陰イオン」の名称と化学式を答えなさい。",
+                a: "硫酸イオン (SO₄²⁻)",
+                exp: "＋極側（硫酸銅側）では、銅イオン（Cu²⁺：陽イオン）がどんどん析出して減るため、対になる硫酸イオン（陰イオン）が余ります。この過剰な陰イオンが電気のバランスを保つため素焼きの板を通って左（－極側）に移動します。"
+            }
+        ];
+
+        function renderFaqs() {
+            const list = document.getElementById('faq-list');
+            list.innerHTML = '';
+            faqs.forEach((faq, idx) => {
+                const div = document.createElement('div');
+                div.className = "border border-stone-200 rounded-lg overflow-hidden";
+                div.innerHTML = `
+                    <button class="w-full text-left px-4 py-3 bg-stone-50 hover:bg-stone-100 font-medium text-stone-800 flex justify-between items-center focus:outline-none" onclick="toggleFaq(${idx})">
+                        <span><span class="text-teal-600 font-bold mr-2">Q.</span>${faq.q}</span>
+                        <span id="faq-icon-${idx}" class="text-stone-400 ml-2">▼</span>
+                    </button>
+                    <div id="faq-content-${idx}" class="hidden px-4 py-3 bg-white border-t border-stone-200">
+                        <p class="font-bold text-red-600 mb-2">答: <span class="font-mono text-stone-800 text-sm whitespace-pre-line">${faq.a}</span></p>
+                        <p class="text-xs text-stone-600 bg-stone-50 p-2 rounded border border-stone-100"><strong>解説:</strong> ${faq.exp}</p>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function toggleFaq(idx) {
+            const content = document.getElementById(`faq-content-${idx}`);
+            const icon = document.getElementById(`faq-icon-${idx}`);
+            if(content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.textContent = '▲';
+            } else {
+                content.classList.add('hidden');
+                icon.textContent = '▼';
+            }
+        }
+
+        window.onload = function() {
+            renderVocab();
+            renderFaqs();
+        };
+    </script>
+</body>
+</html>

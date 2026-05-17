@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中学社会歴史：明治時代 総合学習インタラクティブ・ガイド</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Chosen Palette: Historic paper background (amber-50/stone-50) representing pre-modern to modern history, with deep imperial red (red-800) for power/politics/wars, indigo (indigo-900) for culture/literature, and charcoal/slate for structural depth. -->
+    
+    <!-- Application Structure Plan: A comprehensive tabbed single-page application (SPA). Meiji history is marked by rapid changes and intense conflicts. The structure is organized logically into:
+    1. "Reforms & Rebellions" (富国強兵の三大改革と士族・民衆の反乱) - Explaining the friction of early modernization.
+    2. "Road to Parliament" (国会開設・憲法制定) - Showing the clash between democratic movements and authoritarian governance.
+    3. "Foreign Relations & Wars" (条約改正・日清日露戦争) - Covering geopolitical dynamics and subsequent domestic dissatisfaction.
+    4. "Culture & Literature" (文明開化と文化・文学) - Restoring the comprehensive literary and scientific developments (Mori Ogai, Natsume Soseki).
+    5. "Review & Quizzes" (一問一答と記述力養成) - Upgraded to cover all friction points of the entire era. -->
+    
+    <!-- Visualization & Content Choices: 
+    1. Three Major Reforms Selector: Interactive card layout dynamically displaying tax, conscription, and education specifics.
+    2. Rebellions Timeline: A custom interactive pathway showing the transition from peasant protests to major military clashes (Satsuma Rebellion).
+    3. Constitution Draft Map: Card selectors showing how private constitution drafts (私擬憲法) contrasted with the official imperial constitution.
+    4. War & Diplomacy Interface: Visual dynamic summary cards detailing the triggers, peace treaties, and civilian dissatisfaction (e.g. Hibiya Incendiary Incident).
+    5. Two Quantitative Charts: 
+       - Chart A: Chart.js shows the tax revenue stability before/after Land Tax Reform (visualizing why cash tax was crucial).
+       - Chart B: Chart.js shows the military spending vs other budget categories in late Meiji, explaining the enormous domestic burden.
+    Libraries: Chart.js for data visualization. NO SVG/Mermaid used. -->
+    
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: #fdfbf7; 
+            color: #2d2a26;
+        }
+
+        .returen-button{
+            display:block;
+            margin-left:auto;
+        }
+
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="bg-red-800 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">明治時代 総合学習インタラクティブ・ガイド</h1>
+            <p class="mt-1 text-red-100 text-sm sm:text-base">明治維新・自由民権・対外戦争から近代文化の発展まで</p>
+            <button class="return-button" onclick="location.href='index.html'">戻る</button>
+        </div>
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <ul class="flex space-x-1 overflow-x-auto hide-scrollbar text-sm sm:text-base font-medium pb-2">
+                <li><button onclick="switchTab('home')" id="tab-home" class="px-4 py-2 rounded-md bg-red-900 text-white transition-colors whitespace-nowrap">全体の流れ</button></li>
+                <li><button onclick="switchTab('reforms')" id="tab-reforms" class="px-4 py-2 rounded-md hover:bg-red-700 text-red-100 transition-colors whitespace-nowrap">1. 三大改革と人々の反乱</button></li>
+                <li><button onclick="switchTab('parliament')" id="tab-parliament" class="px-4 py-2 rounded-md hover:bg-red-700 text-red-100 transition-colors whitespace-nowrap">2. 国会・憲法への道</button></li>
+                <li><button onclick="switchTab('wars')" id="tab-wars" class="px-4 py-2 rounded-md hover:bg-red-700 text-red-100 transition-colors whitespace-nowrap">3. 外交・戦争と不満</button></li>
+                <li><button onclick="switchTab('culture')" id="tab-culture" class="px-4 py-2 rounded-md hover:bg-red-700 text-red-100 transition-colors whitespace-nowrap">4. 明治の文化・文学</button></li>
+                <li><button onclick="switchTab('review')" id="tab-review" class="px-4 py-2 rounded-md hover:bg-red-700 text-red-100 transition-colors whitespace-nowrap">一問一答・確認テスト</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="flex-grow max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8 w-full">
+
+        <!-- HOME SECTION -->
+        <section id="home" class="tab-content active">
+            <div class="bg-white rounded-xl shadow-sm border border-amber-100 p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-red-800 mb-4">激動の明治時代を多角的に学ぶ</h2>
+                <p class="text-stone-600 leading-relaxed mb-6">
+                    明治時代（1868〜1912年）は、日本が近代国家としての基盤を築く一方で、新しい制度に対するすさまじい摩擦、対立、そして戦争が繰り返された時代でもあります。
+                    「富国強兵」の陰に隠れた農民の反乱（地租改正一揆、血税一揆）、特権を奪われた武士（士族）たちの武装蜂起、そして「自分たちの代表による政治」を求めた激しい言論運動。
+                    さらに、アジアの隣国や欧米列強との衝突と二大対外戦争が日本社会を揺さぶりました。本ガイドでは、これらすべての流れを「制度と人々の感情の摩擦」から深く、わかりやすく整理しています。
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="p-4 bg-amber-50/50 rounded-lg border border-amber-100 cursor-pointer hover:shadow-md transition-shadow" onclick="switchTab('reforms')">
+                        <h3 class="font-bold text-lg text-red-700">🌾 1. 三大改革と反乱</h3>
+                        <p class="text-sm text-stone-500 mt-2">地租改正・徴兵令・学制の仕組みと、地租改正一揆や西南戦争などの衝突を学びます。</p>
+                    </div>
+                    <div class="p-4 bg-amber-50/50 rounded-lg border border-amber-100 cursor-pointer hover:shadow-md transition-shadow" onclick="switchTab('parliament')">
+                        <h3 class="font-bold text-lg text-red-700">📜 2. 国会・憲法への道</h3>
+                        <p class="text-sm text-stone-500 mt-2">自由民権運動の広がり、私擬憲法、そして大日本帝国憲法発布の歴史をたどります。</p>
+                    </div>
+                    <div class="p-4 bg-amber-50/50 rounded-lg border border-amber-100 cursor-pointer hover:shadow-md transition-shadow" onclick="switchTab('wars')">
+                        <h3 class="font-bold text-lg text-red-700">🚢 3. 外交・戦争と不満</h3>
+                        <p class="text-sm text-stone-500 mt-2">条約改正交渉、日清・日露戦争と、賠償金ゼロに対する国民の怒り（日比谷焼打事件）を理解します。</p>
+                    </div>
+                    <div class="p-4 bg-amber-50/50 rounded-lg border border-amber-100 cursor-pointer hover:shadow-md transition-shadow" onclick="switchTab('culture')">
+                        <h3 class="font-bold text-lg text-red-700">🌸 4. 明治の文化・文学</h3>
+                        <p class="text-sm text-stone-500 mt-2">文明開化、写実主義から森鷗外・夏目漱石らの文学闘争、そして近代科学の歩みを整理します。</p>
+                    </div>
+                </div>
+
+                <div class="bg-stone-50 rounded-lg p-6 border border-stone-200">
+                    <h3 class="font-bold text-lg text-stone-800 mb-2">💡 明治時代を読み解く「2大キーワード」</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3 text-sm">
+                        <div class="p-3 bg-white rounded border border-stone-200">
+                            <strong class="text-red-800">中央集権化（ちゅうおうしゅうけんか）</strong>
+                            <p class="text-xs text-stone-600 mt-1">版籍奉還や廃藩置県により、江戸時代の各藩による分権政治を終わらせ、すべての権力と税収を東京の新政府（天皇）に一本化しようとした歩みです。</p>
+                        </div>
+                        <div class="p-3 bg-white rounded border border-stone-200">
+                            <strong class="text-red-800">富国強兵（ふこくきょうへい）</strong>
+                            <p class="text-xs text-stone-600 mt-1">「経済を豊かにし（富国）」、「軍隊を強くする（強兵）」。欧米列強の植民地支配から日本を守るための、新政府の最大かつ究極の国家目標でした。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: REFORMS & REBELLIONS -->
+        <section id="reforms" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-red-800 mb-2">1. 富国強兵の「三大改革」と人々の不満・反乱</h2>
+                <p class="text-stone-600 leading-relaxed">
+                    新政府は「富国強兵」を掲げ、国の仕組みを根底から変える「三大改革」を実行しました。しかし、あまりにも急激で負担の大きい改革は、農民たちの生活を直撃し、さらに武士の誇りと特権を奪われた士族たちの怒りを爆発させました。
+                </p>
+            </div>
+
+            <!-- TAB SYSTEM: THREE MAJOR REFORMS -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
+                <div class="lg:col-span-4 bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-xl font-bold text-stone-800 mb-4">富国強兵「三大改革」</h3>
+                    <p class="text-xs text-stone-500 mb-3">各ボタンをクリックして、改革の目的と内容、そして生じた反発を確認しましょう。</p>
+                    <div class="space-y-3">
+                        <button onclick="showReform('land')" id="btn-ref-land" class="w-full text-left px-4 py-3 rounded-lg border border-red-200 bg-red-50 text-red-900 font-bold transition-all">
+                            🌾 地租改正 (1873年)
+                        </button>
+                        <button onclick="showReform('military')" id="btn-ref-military" class="w-full text-left px-4 py-3 rounded-lg border border-stone-200 bg-white text-stone-700 hover:bg-stone-50 transition-all">
+                            🎖️ 徴兵令 (1873年)
+                        </button>
+                        <button onclick="showReform('education')" id="btn-ref-education" class="w-full text-left px-4 py-3 rounded-lg border border-stone-200 bg-white text-stone-700 hover:bg-stone-50 transition-all">
+                            🎒 学制 (1872年)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8 bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <div id="reform-detail-box">
+                        <h3 id="reform-title" class="text-2xl font-bold text-red-800 mb-3">地租改正 (1873年)</h3>
+                        <div class="mb-4">
+                            <span class="inline-block bg-red-100 text-red-800 text-xs px-2.5 py-0.5 rounded-full font-bold">税制の大転換</span>
+                        </div>
+                        <p id="reform-desc" class="text-stone-600 leading-relaxed mb-4 text-sm sm:text-base">
+                            旧幕府時代の「収穫された米の量」を納める不安定な税制から、土地の価値（地価）を定め、その3%を「地主が現金で納税する」近代的な仕組みへと改めました。
+                        </p>
+                        <div class="bg-amber-50 p-4 rounded-lg border border-amber-100">
+                            <h4 class="font-bold text-amber-900 text-sm mb-2">💡 テストに出る理由とポイント</h4>
+                            <ul id="reform-points" class="list-disc list-inside text-xs sm:text-sm text-amber-950 space-y-1">
+                                <li><strong>目的：</strong>政府の歳入（税収）を毎年一定にさせて、国の予算を安定させるため。</li>
+                                <li><strong>納税者：</strong>収穫した農民ではなく、「地券」を与えられた「地主（土地所有者）」。</li>
+                                <li><strong>注意：</strong>農民たちの負担は江戸時代とほぼ変わらず重かったため、各地で大規模な「地租改正一揆」が勃発。政府は慌てて税率を 3% から 2.5% に引き下げました。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REFORMS CHART: VISUALIZING REVENUE STABILITY -->
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 mb-8">
+                <h3 class="text-xl font-bold text-stone-800 mb-2">地租改正がもたらした「税収の安定」シミュレーション</h3>
+                <p class="text-sm text-stone-600 mb-4">江戸時代の「米による納税」と、地租改正後の「金（現金）による納税」で、政府の税収の安定度がどのように変化したか、イメージをグラフで確認しましょう。</p>
+                <div class="chart-container">
+                    <canvas id="taxRevenueChart"></canvas>
+                </div>
+                <p class="text-xs text-stone-500 mt-2 text-center">※天候不順による凶作でも、地価は変わらないため、政府は毎年一定の予算を確保できるようになりました。</p>
+            </div>
+
+            <!-- REBELLIONS SELECTOR -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
+                <div class="lg:col-span-4 bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-xl font-bold text-stone-800 mb-4">生じた不満と反乱</h3>
+                    <p class="text-xs text-stone-500 mb-3">改革や特権廃止に対する民衆と武士（士族）たちの激しい反抗を整理しましょう。</p>
+                    <div class="space-y-3">
+                        <button onclick="showRebellion('land-protest')" id="btn-reb-land" class="w-full text-left px-4 py-3 rounded-lg border border-red-200 bg-red-50 text-red-900 font-bold transition-all">
+                            🌾 地租改正一揆 (1876年)
+                        </button>
+                        <button onclick="showRebellion('blood-protest')" id="btn-reb-blood" class="w-full text-left px-4 py-3 rounded-lg border border-stone-200 bg-white text-stone-700 hover:bg-stone-50 transition-all">
+                            🩸 血税一揆 (1873年~)
+                        </button>
+                        <button onclick="showRebellion('shizoku-rebellion')" id="btn-reb-shizoku" class="w-full text-left px-4 py-3 rounded-lg border border-stone-200 bg-white text-stone-700 hover:bg-stone-50 transition-all">
+                            ⚔️ 不平士族の反乱と西南戦争
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8 bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <div id="rebellion-detail-box">
+                        <h3 id="rebellion-title" class="text-2xl font-bold text-red-800 mb-3">地租改正一揆 (1876年)</h3>
+                        <div class="mb-4">
+                            <span class="inline-block bg-red-100 text-red-800 text-xs px-2.5 py-0.5 rounded-full font-bold">農民の激しい抵抗</span>
+                        </div>
+                        <p id="rebellion-desc" class="text-stone-600 leading-relaxed mb-4 text-sm sm:text-base">
+                            地租改正により、地価の3%を現金で納税することになりましたが、これは江戸時代の重い年貢とほぼ変わらない負担でした。怒った農民たちは伊勢（三重県）や東海、北関東などで次々と一揆を起こし、役所を襲撃しました。
+                        </p>
+                        <div class="bg-amber-50 p-4 rounded-lg border border-amber-100">
+                            <h4 class="font-bold text-amber-900 text-sm mb-2">💡 テストに出る理由と新政府の対応</h4>
+                            <p id="rebellion-points" class="text-xs sm:text-sm text-amber-950 leading-relaxed">
+                                新政府は、当時高まっていた士族の反乱と農民の一揆が結びつくことを恐れ、<strong>1877年に地租を「3%」から「2.5%」に引き下げました。</strong>これが、農民の反抗が政府を動かした極めて重要な歴史的事例です。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SHIZOKU REBELLION PATHWAY -->
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                <h3 class="text-xl font-bold text-stone-800 border-b-2 border-red-100 pb-2 mb-4">士族の反乱のステップ（征韓論分裂から西南戦争へ）</h3>
+                <p class="text-sm text-stone-600 mb-6">廃刀令や秩禄処分によって武士の特権を完全に失った士族たちの、破滅的な反乱へのステップを追ってみましょう。</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
+                    <div class="p-4 bg-stone-50 rounded-lg border border-stone-200">
+                        <div class="font-bold text-red-800 mb-1">① 征韓論（せいかんろん）の分裂</div>
+                        <p class="text-xs text-stone-600">武力で朝鮮に開国を迫る主張が、大久保利通ら「時期尚早派」に阻まれ、西郷隆盛や江藤新平らが新政府を辞任（明治六年の政変）。</p>
+                    </div>
+                    <div class="p-4 bg-stone-50 rounded-lg border border-stone-200">
+                        <div class="font-bold text-red-800 mb-1">② 佐賀の乱（1874年）</div>
+                        <p class="text-xs text-stone-600">下野した江藤新平が士族に担がれて蜂起した最初の士族反乱。新政府軍の圧倒的な近代兵力によって速やかに鎮圧される。</p>
+                    </div>
+                    <div class="p-4 bg-stone-50 rounded-lg border border-stone-200">
+                        <div class="font-bold text-red-800 mb-1">③ 三反乱の勃発（1876年）</div>
+                        <p class="text-xs text-stone-600">熊本の敬神党（神風連）の乱、秋月の乱、萩の乱が連続して発生。廃刀令や金禄公債証書発行（武士の特権廃止）への絶望が背景。</p>
+                    </div>
+                    <div class="p-4 bg-red-50 rounded-lg border border-red-200">
+                        <div class="font-bold text-red-800 mb-1">④ 西南戦争（1877年）</div>
+                        <p class="text-xs text-stone-600">鹿児島で<strong>西郷隆盛</strong>を首領として士族が蜂起した日本最大の士族の内乱。徴兵制による平民主体の政府軍が西郷軍を打ち破る。</p>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 bg-red-100/50 rounded-lg border border-red-200 text-xs text-red-950 font-bold">
+                    🛡️ 歴史的意義：西南戦争の敗北により、「もはや武力で政府を打倒することは不可能である」ことが証明され、士族や知識人たちは言論によって政府を追及する「自由民権運動」へと傾倒していくことになります。
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: PARLIAMENT & CONSTITUTION -->
+        <section id="parliament" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-red-800 mb-2">2. 自由民権運動の激化と国会・憲法の設立</h2>
+                <p class="text-stone-600 leading-relaxed">
+                    武力闘争の時代が終わり、今度は「言論」による激しい政治闘争が始まりました。「藩閥（はんばつ）政府の独裁ではなく、国民が選んだ代表による国会をつくれ！」という主張が、日本中を駆け巡ります。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-xl font-bold text-stone-800 border-b-2 border-red-100 pb-2 mb-4">自由民権運動のプロセス</h3>
+                    <p class="text-sm text-stone-600 mb-4">国会が開設されるまでの運動の盛り上がりと激化の歩みを辿りましょう。</p>
+                    
+                    <div class="space-y-4 max-h-[400px] overflow-y-auto pr-2">
+                        <div class="p-3 bg-stone-50 rounded border-l-4 border-red-600 text-xs">
+                            <span class="font-bold text-red-800 block">1874年: 民撰議院設立建白書の提出</span>
+                            <strong>板垣退助</strong>らが政府を辞めたのち提出。日本の「自由民権運動の口火」を切った出来事。藩閥による専制政治を鋭く批判。
+                        </div>
+                        <div class="p-3 bg-stone-50 rounded border-l-4 border-red-600 text-xs">
+                            <span class="font-bold text-red-800 block">1880年: 国会期成同盟の結成</span>
+                            全国の民権運動の代表者が大阪に集まり、国会を開設するよう政府に迫る署名運動を展開。
+                        </div>
+                        <div class="p-3 bg-stone-50 rounded border-l-4 border-red-600 text-xs">
+                            <span class="font-bold text-red-800 block">1881年: 明治十四年の政変と開設の公約</span>
+                            開拓使官有物払下げ事件で政府への批判が高まる中、早期国会開設を求めた大隈重信を追放。同時に、政府は<strong>「10年後の国会開設」を公約（約束）</strong>した。
+                        </div>
+                        <div class="p-3 bg-stone-50 rounded border-l-4 border-red-600 text-xs">
+                            <span class="font-bold text-red-800 block">1881年~: 政党の結成</span>
+                            国会開設の準備として、板垣退助は<strong>自由党</strong>を、大隈重信は<strong>立憲改進党</strong>を結成した。
+                        </div>
+                        <div class="p-3 bg-red-50 rounded border-l-4 border-red-800 text-xs">
+                            <span class="font-bold text-red-800 block">1884年: 激化事件（秩父事件など）</span>
+                            不況（松方デフレ）による生活苦に怒った農民や過激化した民権運動家たちが結びつき、埼玉県で<strong>秩父（ちちぶ）事件</strong>などの武力蜂起を引き起こした。運動は弾圧され一時後退へ。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-stone-800 border-b-2 border-red-100 pb-2 mb-4">民衆による憲法草案「私擬憲法」</h3>
+                        <p class="text-sm text-stone-600 mb-4">
+                            明治政府がドイツを手本にした国定憲法を起草するより前に、実は全国の民権運動家や知識人が自ら「理想の憲法」を書き残していました。
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4 text-xs">
+                            <div class="p-3 bg-amber-50 rounded border border-amber-200">
+                                <span class="font-bold text-amber-900 block">五日市（いつかいち）憲法草案</span>
+                                東京の現在のあきる野市の民家の土蔵から発見された。国民の基本的人権や、学習の権利、主権のあり方などを先進的に保証していた。
+                            </div>
+                            <div class="p-3 bg-amber-50 rounded border border-amber-200">
+                                <span class="font-bold text-amber-900 block">植木枝盛の「東洋大日本国国憲案」</span>
+                                非常に民主的かつ過激な内容。国民に「抵抗権（政府の不当な命令に逆らう権利）」や「革命権」を認めていた。
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-stone-100 rounded-lg border border-stone-200">
+                        <h4 class="font-bold text-stone-800 text-sm mb-1">大日本帝国憲法（1889年）との対比</h4>
+                        <p class="text-xs text-stone-600 leading-relaxed">
+                            民間の熱い人権意識とは裏腹に、伊藤博文らが極秘裏に起草した憲法はドイツ（プロイセン）を手本にしたもので、主権は天皇にあり、統帥権の独立により軍への国会の関与を困難にするなど、君主権を極めて重視した構造になりました。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: WARS & DIPLOMACY -->
+        <section id="wars" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-red-800 mb-2">3. 諸外国との外交関係、対外戦争と国民の不満</h2>
+                <p class="text-stone-600 leading-relaxed">
+                    近代国家となった明治日本は、西洋列強の仲間入りを果たすべく、不平等条約の改正に苦心しつつ、東アジアにおける支配権をめぐって大きな戦争に突入しました。戦争は勝利をもたらした一方で、多大な犠牲と国民の激しい不満を呼びました。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <!-- COL 1: EARLY DIPLOMACY & TREATIES -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-stone-800 border-b-2 border-red-100 pb-2 mb-3">① 初期外交と条約改正</h3>
+                        <p class="text-xs text-stone-600 mb-4">初期はアジア諸国に不平等条約を課しつつ、列強との条約改正に挑みました。</p>
+                        <div class="space-y-2 text-xs">
+                            <div class="p-2 bg-stone-50 rounded">
+                                <strong class="text-red-800">日清修好条規 (1871年)</strong>: 清と対等な内容。
+                            </div>
+                            <div class="p-2 bg-stone-50 rounded">
+                                <strong class="text-red-800">日朝修好条規 (1876年)</strong>: 朝鮮に強いた不平等条約。
+                            </div>
+                            <div class="p-2 bg-stone-50 rounded">
+                                <strong class="text-red-800">琉球処分 (1879年)</strong>: 沖縄県の設置。
+                            </div>
+                            <hr class="border-stone-200 my-2">
+                            <div class="p-2 bg-amber-50 rounded border border-amber-100">
+                                <strong class="text-amber-900 block">陸奥 宗光 (1894年)</strong>
+                                領事裁判権（治外法権）の撤廃。
+                            </div>
+                            <div class="p-2 bg-amber-50 rounded border border-amber-100">
+                                <strong class="text-amber-900 block">小村 寿太郎 (1911年)</strong>
+                                関税自主権の完全回復。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COL 2: SINO-JAPANESE WAR -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-lg font-bold text-stone-800 border-b-2 border-red-100 pb-2 mb-3">② 日清戦争 (1894~1895年)</h3>
+                    <p class="text-xs text-stone-600 mb-4">朝鮮での甲午農民戦争を機に清と対決。近代軍の勝利により条約を結びます。</p>
+                    <div class="space-y-3 text-xs">
+                        <div class="p-2 bg-red-50 rounded">
+                            <strong class="text-red-800">下関（しものせき）条約</strong>
+                            陸奥宗光と李鴻章の間で締結。<br>
+                            - 朝鮮の独立を清に認めさせる<br>
+                            - <strong>遼東（リャオトン）半島</strong>、台湾などを獲得<br>
+                            - 賠償金2億両（テール）を獲得
+                        </div>
+                        <div class="p-2 bg-red-100/50 rounded">
+                            <strong class="text-red-800">三国干渉（さんごくかんしょう）</strong>
+                            ロシア・ドイツ・フランスの3国が、遼東半島を清へ返還するよう日本に迫り、日本は力なく屈した。
+                        </div>
+                        <div class="p-2 bg-stone-100 rounded text-stone-700">
+                            <strong>😠 国民の恨み：</strong>「臥薪嘗胆（がしんしょうたん）」を合い言葉に、ロシアへの対抗心が国内で一気に爆発。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COL 3: RUSSO-JAPANESE WAR -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-lg font-bold text-stone-800 border-b-2 border-red-100 pb-2 mb-3">③ 日露戦争 (1904~1905年)</h3>
+                    <p class="text-xs text-stone-600 mb-4">満洲や朝鮮をめぐるロシアとの激突。日英同盟（1902年）の後押しで開戦しました。</p>
+                    <div class="space-y-3 text-xs">
+                        <div class="p-2 bg-red-50 rounded">
+                            <strong class="text-red-800">ポーツマス条約</strong>
+                            小村寿太郎とウィッテの間で締結。<br>
+                            - 韓国（大韓帝国）における日本の優越権<br>
+                            - 南樺太（サハリン）の割譲<br>
+                            - 南満洲鉄道の権利獲得
+                        </div>
+                        <div class="p-3 bg-red-100/50 rounded text-red-950 font-bold border border-red-200">
+                            <strong class="text-red-900">日比谷焼打（やきうち）事件</strong>
+                            過酷な増税と兵役を耐え抜いた国民は、条約で<strong>「賠償金がゼロ」</strong>だと知るや激怒。日比谷での抗議集会が暴動に発展し、東京に戒厳令が敷かれた。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHART EXPLAINING MILITARY COST IN LATE MEIJI -->
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                <h3 class="text-xl font-bold text-stone-800 mb-2">日露戦争当時の国家予算における軍事費比率</h3>
+                <p class="text-sm text-stone-600 mb-4">日露戦争を戦い抜くため、日本はいかに莫大なお金を軍事費に投入し、国民が「非常特別税」などの形で重い生活負担を強いられていたかをグラフで確認しましょう。</p>
+                <div class="chart-container">
+                    <canvas id="militaryBudgetChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: MEIJI CULTURE -->
+        <section id="culture" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-indigo-900 mb-2">4. 文明開化と明治の文化・近代文学の潮流</h2>
+                <p class="text-stone-600 leading-relaxed">
+                    極端な欧米化を推進した「鹿鳴館（ろくめいかん）」時代をへて、文化・文学の世界では、西洋の個人主義を前に自らの存在に苦悩する夏目漱石、西洋の圧倒的な近代医療・文学に触れ軍医として葛藤した森鷗外らが、不朽の名作を生み出しました。
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 mb-8">
+                <h3 class="text-xl font-bold text-stone-800 mb-4">近代文学の主要対立と発展マップ</h3>
+                <p class="text-sm text-stone-600 mb-6">
+                    明治の文学は、お仕着せの物語から「ありのままを描く」写実主義へ進み、やがて感情の爆発（浪漫）、現実の冷酷な暴露（自然）、知的な余裕（余裕派・反自然主義）へと移行しました。
+                </p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                    <button onclick="showGenre('realism')" id="genre-realism" class="py-3 px-2 rounded-lg text-center font-bold text-sm border bg-indigo-50 border-indigo-200 text-indigo-900 transition-all">
+                        🖋️ 写実主義<br><span class="text-xs font-normal">ありのままを描く</span>
+                    </button>
+                    <button onclick="showGenre('romanticism')" id="genre-romanticism" class="py-3 px-2 rounded-lg text-center font-bold text-sm border bg-white border-stone-200 text-stone-700 hover:bg-stone-50 transition-all">
+                        🌹 浪漫主義<br><span class="text-xs font-normal">個性と感情の解放</span>
+                    </button>
+                    <button onclick="showGenre('naturalism')" id="genre-naturalism" class="py-3 px-2 rounded-lg text-center font-bold text-sm border bg-white border-stone-200 text-stone-700 hover:bg-stone-50 transition-all">
+                        🍃 自然主義<br><span class="text-xs font-normal">理想を排した現実</span>
+                    </button>
+                    <button onclick="showGenre('leisure')" id="genre-leisure" class="py-3 px-2 rounded-lg text-center font-bold text-sm border bg-white border-stone-200 text-stone-700 hover:bg-stone-50 transition-all">
+                        🦉 反自然主義・余裕派<br><span class="text-xs font-normal">漱石・鷗外の知性</span>
+                    </button>
+                </div>
+
+                <div class="bg-stone-50 rounded-xl p-6 border border-stone-200" id="genre-detail">
+                    <h4 class="text-xl font-bold text-indigo-900 mb-2" id="detail-genre-title">写実主義 (しゃじつしゅぎ)</h4>
+                    <p class="text-sm text-stone-600 mb-4" id="detail-genre-desc">
+                        江戸時代の勧善懲悪といった作り話から脱却し、社会や人間のありのままの姿をリアルに描写しようとする動きです。
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="detail-authors">
+                        <div class="bg-white p-4 rounded-lg border border-stone-200">
+                            <h5 class="font-bold text-stone-800 text-sm">坪内 逍遥 (つぼうち しょうよう)</h5>
+                            <p class="text-xs text-stone-500 mt-1">評論：『小説神髄』</p>
+                            <p class="text-xs text-stone-600 mt-2">
+                                近代日本の近代文芸論の先駆者。「小説は人間の感情（人情）をありのままに描くべきだ」と主張し、近代文学の方向性を示しました。
+                            </p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-stone-200">
+                            <h5 class="font-bold text-stone-800 text-sm">二葉亭 四迷 (ふたばてい しめい)</h5>
+                            <p class="text-xs text-stone-500 mt-1">作品：『浮雲』</p>
+                            <p class="text-xs text-stone-600 mt-2">
+                                坪内の理論を実践し、話し言葉で文章を書く<strong>「言文一致体」</strong>を確立。日本の本格的近代写実小説の祖。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INTELLECTUAL AND SCIENTIFIC MODERNIZATION -->
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                <h3 class="text-xl font-bold text-stone-800 border-b-2 border-red-100 pb-2 mb-4">学術・科学の近代化</h3>
+                <p class="text-sm text-stone-600 mb-4">
+                    明治時代には、欧米から最先端の知識を学び取った日本人研究者たちが、世界のトップレベルに並ぶ数々の輝かしい研究成果を残しました。
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-4 bg-stone-50 rounded-lg border border-stone-200">
+                        <h4 class="font-bold text-red-800 text-sm">北里 柴三郎 (きたさと しばさぶろう)</h4>
+                        <p class="text-xs text-stone-500 mt-0.5">功績：破傷風の治療法確立・ペスト菌発見</p>
+                        <p class="text-xs text-stone-600 mt-2">
+                            コッホに師事し、破傷風の血清療法を確立。日本の近代医学の父・伝染病研究所の設立者。
+                        </p>
+                    </div>
+                    <div class="p-4 bg-stone-50 rounded-lg border border-stone-200">
+                        <h4 class="font-bold text-red-800 text-sm">野口 英世 (のぐち ひでよ)</h4>
+                        <p class="text-xs text-stone-500 mt-0.5">功績：黄熱病などの病原体研究</p>
+                        <p class="text-xs text-stone-600 mt-2">
+                            千円札の肖像画でも有名。アメリカへ渡り、梅毒スピロヘータや黄熱病の研究に生涯を捧げました。
+                        </p>
+                    </div>
+                    <div class="p-4 bg-stone-50 rounded-lg border border-stone-200">
+                        <h4 class="font-bold text-red-800 text-sm">志賀 潔 (しが きよし)</h4>
+                        <p class="text-xs text-stone-500 mt-0.5">功績：赤痢（せきり）菌の発見</p>
+                        <p class="text-xs text-stone-600 mt-2">
+                            北里柴三郎の弟子。当時、非常に多くの人々の命を奪っていた感染病「赤痢」の病原菌を突き止めました。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: REVIEW & TEST -->
+        <section id="review" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-red-800 mb-2">一問一答・確認テスト</h2>
+                <p class="text-stone-600 leading-relaxed">
+                    本単元の「不満」「対立」「対外関係」「文学史」をしっかりと確認できるよう、テストや入試に特に出る内容を整理しました。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- VOCABULARY ACCORDION LIST -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-stone-800">重要語句 (Vocabulary)</h3>
+                        <input type="text" id="vocab-search" placeholder="用語を検索..." onkeyup="filterVocab()" class="border border-stone-300 rounded px-3 py-1 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500">
+                    </div>
+                    <div class="max-h-96 overflow-y-auto pr-2" id="vocab-list">
+                    </div>
+                </div>
+
+                <!-- KEY QUESTIONS SECTION (FAQ STYLE) -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-xl font-bold text-stone-800 mb-4">入試頻出 記述式テスト</h3>
+                    <p class="text-sm text-stone-600 mb-4">問題をクリックすると解答と詳しい解説が表示されます。</p>
+                    <div class="space-y-3" id="faq-list">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-800 text-stone-300 py-6 text-center text-sm mt-auto">
+        <p>中学校歴史学習ガイド | 明治維新から明治の文化・文学まで</p>
+    </footer>
+
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.remove('bg-red-900', 'text-white');
+                btn.classList.add('text-red-100', 'hover:bg-red-700');
+            });
+            
+            document.getElementById(tabId).classList.add('active');
+            
+            const activeBtn = document.getElementById('tab-' + tabId);
+            activeBtn.classList.remove('text-red-100', 'hover:bg-red-700');
+            activeBtn.classList.add('bg-red-900', 'text-white');
+            
+            if (tabId === 'reforms') {
+                initTaxChart();
+            }
+            if (tabId === 'wars') {
+                initBudgetChart();
+            }
+        }
+
+        // REFORMS SYSTEM
+        const reforms = {
+            'land': {
+                title: '地租改正 (1873年)',
+                badge: '税制の大転換',
+                desc: '江戸時代の不安定な「米による納税」から、土地の価値（地価）をもとに、一定の税率（当初は3%）を「地主」が「現金（金納）」で納める近代的な税制へと大転換しました。',
+                points: [
+                    '<strong>目的：</strong>天候による不作・豊作に左右されず、毎年の国家予算（税収）を一定にして安定させるため。',
+                    '<strong>納税者：</strong>土地の所有を認められた証しである「地券」を交付された「地主（土地所有者）」。',
+                    '<strong>一揆と減税：</strong>負担が重いことに対する農民の不満が高まり各地で「地租改正一揆」が発生。新政府は税率を 3% から 2.5% に引き下げて対応しました。'
+                ]
+            },
+            'military': {
+                title: '徴兵令 (1873年)',
+                badge: '国民兵役の確立',
+                desc: '国民皆兵（国民全員が兵隊になる義務）の方針に基づき、満20歳に達したすべての男子に兵役を義務付け、近代的な常備軍を創設した大改革です。',
+                points: [
+                    '<strong>目的：</strong>武士だけが戦う旧来の軍隊を排し、国民全員で近代的な国家防衛を行うため。',
+                    '<strong>免除への不満：</strong>一定の免除規定（戸主や学生など）があったため不満が生じ、さらに不安心理から「血税一揆」と呼ばれる暴動が各地で起こりました。',
+                    '<strong>影響：</strong>それまで特権階級であった旧武士（士族）の誇りが傷つけられ、のちの「士族の反乱（西南戦争など）」への引き金となりました。'
+                ]
+            },
+            'education': {
+                title: '学制 (1872年)',
+                badge: '教育の近代化',
+                desc: '「必ずすべての人（男女問わず）が教育を受けられるようにする」という国民皆教育の考えのもと、フランスの学校制度を模範にして小学校からの近代教育制度を敷いた布告です。',
+                points: [
+                    '<strong>内容：</strong>実生活に即した実学を中心に、男女が等しく通える小学校を全国に次々と作らせました。',
+                    '<strong>不満と抵抗：</strong>授業料は保護者の負担であり、子どもたちが貴重な働き手（労働力）であった農村部では、小学校に通わせることに激しい反対運動が起きることもありました。',
+                    '<strong>成果：</strong>長期的には日本の識字率を世界最高水準へと押し上げ、急速な国力上昇・近代化の原動力となりました。'
+                ]
+            }
+        };
+
+        function showReform(key) {
+            const reform = reforms[key];
+            
+            ['land', 'military', 'education'].forEach(r => {
+                document.getElementById(`btn-ref-${r}`).className = "w-full text-left px-4 py-3 rounded-lg border border-stone-200 bg-white text-stone-700 hover:bg-stone-50 transition-all";
+            });
+            
+            document.getElementById(`btn-ref-${key}`).className = "w-full text-left px-4 py-3 rounded-lg border border-red-200 bg-red-50 text-red-900 font-bold transition-all";
+            
+            document.getElementById('reform-title').textContent = reform.title;
+            const badge = document.querySelector('#reform-detail-box span');
+            badge.textContent = reform.badge;
+            document.getElementById('reform-desc').textContent = reform.desc;
+            
+            const pointsList = document.getElementById('reform-points');
+            pointsList.innerHTML = '';
+            reform.points.forEach(pt => {
+                const li = document.createElement('li');
+                li.innerHTML = pt;
+                pointsList.appendChild(li);
+            });
+        }
+
+        // REBELLIONS SYSTEM
+        const rebellions = {
+            'land-protest': {
+                title: '地租改正一揆 (1876年)',
+                badge: '農民の激しい抵抗',
+                desc: '新政府の近代化政策のもと導入された地租改正ですが、3%という高い税率や現金の用意に困った農民たちの怒りが爆発。伊勢（三重県）や北関東など各地で大規模な一揆が発生し、役所が次々と襲撃されました。',
+                points: '政府は、当時拡大していた「士族の反乱」と「農民の一揆」が同時に爆発して政府が崩壊することを恐れ、<strong>1877年に地租を「3%」から「2.5%」に引き下げる措置をとりました。</strong>これは民衆の抵抗が政府の税制を動かした歴史的に極めて珍しく、かつ重要な事件です。'
+            },
+            'blood-protest': {
+                title: '血税一揆 (けつぜいいっき)',
+                badge: '徴兵令に対する農民の不満',
+                desc: '1873年の「徴兵令」の布告文の中に「兵役は体内の血を国家に捧げるものである（＝血税）」といった比喩表現（フランス語の直訳）があったため、教育を受けていない一部の農民たちが「本当に血を抜かれる」と誤解し、新制度に激しく抵抗する一揆を起こしました。',
+                points: '誤解だけでなく、実質的な本音として、<strong>働き手（貴重な男性労働力）を強制的に軍隊に取られてしまうことへの危機感や不満</strong>が根底にありました。この一揆は、近代的な学校制度（学制）に反対して小学校を焼き討ちした事件とも連動し、初期の強引な改革が人々にどれほどの恐怖と負担を与えたかを物語っています。'
+            },
+            'shizoku-rebellion': {
+                title: '不平士族の反乱 (1874~1877年)',
+                badge: '武士階級最後の武力抵抗',
+                desc: '廃刀令（刀を取り上げられる）や秩禄処分（給与を打ち切られる）により、経済的特権も名誉も失った旧武士（士族）たちの不満が、1874年の江藤新平による「佐賀の乱」を皮切りに一気に武装蜂起へと発展しました。1876年には神風連の乱、秋月の乱、萩の乱が連続して発生します。',
+                points: '最大のものは、1877年に西郷隆盛を首領とした<strong>「西南戦争（せいなんせんそう）」</strong>です。新政府が徴兵制で集めた平民兵中心の「近代的軍隊」が、熟練した武士集団である西郷軍に勝利したことで、<strong>「これからは武力ではなく、言論で政府に迫るべきだ（＝自由民権運動）」</strong>という意識改革へとつながる決定的な契機となりました。'
+            }
+        };
+
+        function showRebellion(key) {
+            const reb = rebellions[key];
+            
+            ['land-protest', 'blood-protest', 'shizoku-rebellion'].forEach(r => {
+                document.getElementById(`btn-reb-${r.split('-')[0]}`).className = "w-full text-left px-4 py-3 rounded-lg border border-stone-200 bg-white text-stone-700 hover:bg-stone-50 transition-all";
+            });
+            
+            document.getElementById(`btn-reb-${key.split('-')[0]}`).className = "w-full text-left px-4 py-3 rounded-lg border border-red-200 bg-red-50 text-red-900 font-bold transition-all";
+            
+            document.getElementById('rebellion-title').textContent = reb.title;
+            const badge = document.querySelector('#rebellion-detail-box span');
+            badge.textContent = reb.badge;
+            document.getElementById('rebellion-desc').textContent = reb.desc;
+            document.getElementById('rebellion-points').innerHTML = reb.points;
+        }
+
+        // LITERARY GENRES SYSTEM
+        const genres = {
+            'realism': {
+                title: '写実主義 (しゃじつしゅぎ)',
+                desc: '江戸時代の勧善懲悪といった作り話から脱却し、社会や人間のありのままの姿をリアルに描写しようとする動きです。',
+                authors: [
+                    { name: '坪内 逍遥 (つぼうち しょうよう)', sub: '評論：『小説神髄』', detail: '小説におけるリアリズムの必要性を提唱。「小説は人情（感情）をありのままに描くべき」と主張し、近代文学の方向性を示しました。' },
+                    { name: '二葉亭 四迷 (ふたばてい しめい)', sub: '小説：『浮雲』', detail: '坪内逍遥の理論を実践。従来の書き言葉から脱却し、当時の話し言葉をベースにした「言文一致体」の文章スタイルを完全に定着させました。' }
+                ]
+            },
+            'romanticism': {
+                title: '浪漫主義 (ろうまんしゅぎ)',
+                desc: '近代社会の中で抑圧された個人の感情、自由な恋愛、個性の美しさを大胆に肯定し、表現しようとする文学運動です。',
+                authors: [
+                    { name: '森 鷗外 (もり おうがい) [初期作品]', sub: '小説：『舞姫』', detail: 'ドイツに留学した陸軍軍医。自らの体験を重ね合わせた『舞姫』で、エリート官僚とドイツ人女性との哀切な恋愛と個人の葛藤を雅文体で美しく描きました。' },
+                    { name: '樋口 一葉 (ひぐち いちよう)', sub: '小説：『たけくらべ』『にごりえ』', detail: 'わずか24歳で早逝した女性作家。思春期から大人になる少年少女たちの揺れ動く感情や、近代化の陰で苦しむ貧しい女性の暮らしを瑞々しく描きました（五千円札の肖像）。' },
+                    { name: '与謝野 晶子 (よさの あきこ)', sub: '詩歌：『みだれ髪』', detail: '歌集『みだれ髪』にて、女性の情熱的な恋心や本能の美を情熱的に詠い上げ、近代歌壇に一大旋風を巻き起こしました。日露戦争への反戦を詠った「君死にたまふことなかれ」も有名。' }
+                ]
+            },
+            'naturalism': {
+                title: '自然主義 (しぜんしゅぎ)',
+                desc: 'フランス作家ゾラの思想の影響を受け、人間の醜悪な現実や、社会の偽りのない暗部、さらには自らの暗い感情や恥部すらも脚色せずに告白し、徹底して客観的に描く姿勢です。',
+                authors: [
+                    { name: '島崎 藤村 (しまざき とうそん)', sub: '小説：『破戒』', detail: '被差別部落という重い社会的差別の現実をテーマに置き、葛藤しながらも真の自己解放に至る主人公を描き、日本の自然主義文学の最高峰とされました。' },
+                    { name: '田山 花袋 (たやま かたい)', sub: '小説：『蒲団』', detail: '自分の弟子の女性に対するみっともない妄執や葛藤、生々しい現実をそのまま描き、自らのプライベートの恥部をもさらけ出す「私小説（ししょうせつ）」のジャンルを開拓しました。' }
+                ]
+            },
+            'leisure': {
+                title: '反自然主義 (余裕派・高踏派など)',
+                desc: '自然主義が持つ「人生の暗部や醜さの描写に偏る」暗い作風を批判し、高い知性と教養をもって人生を達観し、豊かな人間描写を志した知識人たちです。',
+                authors: [
+                    { name: '夏目 漱石 (なつめ そねき)', sub: '小説：『吾輩は猫である』『坊っちゃん』『こゝろ』', detail: 'イギリス留学を経験し、東洋の深い知性と融合。近代特有のエゴイズムや人間の孤独を優れた文章力で描き抜き、大衆から知識人まで広く愛されました。' },
+                    { name: '森 鷗外 (もり おうがい) [後期・歴史小説]', sub: '小説：『山椒大夫』『高瀬舟』', detail: '後期の鷗外は、歴史の中に宿る普遍的な人間の美徳や理性、倫理観を重厚に描き出しました。安楽死をテーマにした『高瀬舟』などが特に知られています。' }
+                ]
+            }
+        };
+
+        function showGenre(key) {
+            const g = genres[key];
+            
+            ['realism', 'romanticism', 'naturalism', 'leisure'].forEach(genreKey => {
+                document.getElementById(`genre-${genreKey}`).className = "py-3 px-2 rounded-lg text-center font-bold text-sm border bg-white border-stone-200 text-stone-700 hover:bg-stone-50 transition-all";
+            });
+            
+            document.getElementById(`genre-${key}`).className = "py-3 px-2 rounded-lg text-center font-bold text-sm border bg-indigo-50 border-indigo-200 text-indigo-900 transition-all";
+            
+            document.getElementById('detail-genre-title').textContent = g.title;
+            document.getElementById('detail-genre-desc').textContent = g.desc;
+            
+            const authorsContainer = document.getElementById('detail-authors');
+            authorsContainer.innerHTML = '';
+            
+            g.authors.forEach(auth => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-4 rounded-lg border border-stone-200";
+                card.innerHTML = `
+                    <h5 class="font-bold text-stone-800 text-sm">${auth.name}</h5>
+                    <p class="text-xs text-indigo-600 mt-1"><strong>${auth.sub}</strong></p>
+                    <p class="text-xs text-stone-600 mt-2">${auth.detail}</p>
+                `;
+                authorsContainer.appendChild(card);
+            });
+        }
+
+        // VOCABULARY DATA
+        const vocabulary = [
+            { term: "地租改正一揆 (1876年)", def: "高すぎる地租（地価の3%）の負担や生活苦に耐えかねた農民たちが、各地で引き起こした激しい反対暴動。翌年、税率が2.5%に緩和された。" },
+            { term: "血税一揆", def: "1873年の徴兵令の文中にあった『血税』という言葉を『本物の血をとられる』と誤解し、また過酷な平民徴兵に反抗して起こった農民反乱。" },
+            { term: "西南戦争 (1877年)", def: "西郷隆盛を担いで鹿児島の不平士族が蜂起した、日本史上最大の士族反乱。政府の近代軍に敗北し、武力による武士の不満闘争は終わりを告げた。" },
+            { term: "民撰議院設立建白書 (1874年)", def: "板垣退助や後藤象二郎らが提出。薩長藩閥の専制政治を厳しく非難し、選ばれた国民による国会の開設を公に要求、自由民権運動の始まりとなった。" },
+            { term: "秩父事件 (1884年)", def: "激化事件の代表例。デフレ政策で極貧に陥った埼玉県の秩父地方の農民らが、自由党員らと結びつき武装蜂起した事件。政府軍に容赦なく鎮圧された。" },
+            { term: "私擬憲法 (しぎけんぽう)", def: "大日本帝国憲法発布の前に、植木枝盛などの民間の民権派や学習グループらが自主的に作成した民主的な憲法草案の総称（例：五日市憲法草案）。" },
+            { term: "日朝修好条規 (1876年)", def: "軍艦を用いて朝鮮に威圧を与えて結ばせた、日本側に領事裁判権を認める一方的な不平等条約。" },
+            { term: "三国干渉 (1895年)", def: "日清戦争後の下関条約で日本が得た「遼東半島」を、ロシア・ドイツ・フランスの3国が清へ返還するよう強制し、屈服させた外交事件。ロシアへの敵対心が高まった。" },
+            { term: "日比谷焼打事件 (1905年)", def: "日露戦争の講和条約（ポーツマス条約）で『賠償金がゼロ』だと知った国民が、日比谷公園での反対集会を機に暴動を起こし、派出所や新聞社を放火した事件。" },
+            { term: "言文一致体", def: "二葉亭四迷らの『浮雲』により定着した、話し言葉に近い表現で文章を記述する近代的な文章スタイル。" }
+        ];
+
+        function renderVocab(filterText = "") {
+            const list = document.getElementById('vocab-list');
+            list.innerHTML = '';
+            
+            const filtered = vocabulary.filter(v => v.term.toLowerCase().includes(filterText.toLowerCase()) || v.def.includes(filterText));
+            
+            if(filtered.length === 0) {
+                list.innerHTML = '<p class="text-sm text-stone-500 py-2">見つかりませんでした。</p>';
+                return;
+            }
+
+            filtered.forEach(item => {
+                const div = document.createElement('div');
+                div.className = "mb-4 pb-4 border-b border-stone-100 last:border-0";
+                div.innerHTML = `
+                    <h4 class="font-bold text-red-700">${item.term}</h4>
+                    <p class="text-sm text-stone-600 mt-1">${item.def}</p>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function filterVocab() {
+            const text = document.getElementById('vocab-search').value;
+            renderVocab(text);
+        }
+
+        // STUDY FAQ DATA
+        const faqs = [
+            {
+                q: "1877年の「西南戦争」が終結したことで、のちの「自由民権運動」に与えた影響を説明しなさい。",
+                a: "武力で新政府を打倒することは不可能であると認識されたため、士族の不満は言論や政治活動によって政府に対抗する『自由民権運動』へと進路を変えていったこと。",
+                exp: "最強の武士集団だった西郷隆盛の敗北は、武力闘争の時代を終わらせ、言論闘争の時代を開く引き金となりました。"
+            },
+            {
+                q: "明治新政府が「地租改正一揆」を受けて、1877年に地租を「3%」から「2.5%」に引き下げた理由を説明しなさい。",
+                a: "不平士族の反乱（西南戦争など）と農民の大規模な一揆が結びつくことで、新政府の維持が極めて危うくなることを恐れたため。",
+                exp: "農民の命がけの抵抗が、明治最大の危機の年に政府の譲歩を勝ち取った象徴的なできごとです。"
+            },
+            {
+                q: "大日本帝国憲法ができる前、全国の民間団体や知識人が起草した「私擬憲法」の特徴を、大日本帝国憲法と比較して説明しなさい。",
+                a: "天皇主権であった大日本帝国憲法と異なり、私擬憲法（五日市憲法など）の多くは、主権のあり方や、国民の基本的人権、信教の自由、さらには政府への抵抗権を非常に強く保証していた。",
+                exp: "五日市憲法や植木枝盛の草案など、民間の方が民主的な人権意識を強く持っていたことが特徴です。"
+            },
+            {
+                q: "日露戦争のポーツマス条約調印後、なぜ「日比谷焼打事件」に代表されるような国民の猛烈な暴動が発生したのか、その理由を説明しなさい。",
+                a: "戦争のために多額の増税（非常特別税など）と多くの人命を犠牲にしたにもかかわらず、条約で賠償金が全く獲得できなかったことに対して国民の怒りが爆発したため。",
+                exp: "「増税と戦死に耐えたのにこれだけか！」という国民の大きな不満と犠牲の大きさが、暴動の引き金となりました。"
+            },
+            {
+                q: "森鷗外の『舞姫』は、文学のどのような流れ（流派）の代表作として知られているか、その作風の特徴とともに答えなさい。",
+                a: "浪漫主義（ろうまんしゅぎ）であり、個人の感情や、封建社会の中での恋愛・個性の解放を雅文体で美しく描き出す作風。",
+                exp: "明治初期の鷗外が、ドイツ留学生としての葛藤を、西洋的な自我やロマンを土台にして描き上げた傑作です。"
+            }
+        ];
+
+        function renderFaqs() {
+            const list = document.getElementById('faq-list');
+            list.innerHTML = '';
+            faqs.forEach((faq, idx) => {
+                const div = document.createElement('div');
+                div.className = "border border-stone-200 rounded-lg overflow-hidden mb-3";
+                div.innerHTML = `
+                    <button class="w-full text-left px-4 py-3 bg-stone-50 hover:bg-stone-100 font-medium text-stone-800 flex justify-between items-center focus:outline-none" onclick="toggleFaq(${idx})">
+                        <span><span class="text-red-700 font-bold mr-2">Q.</span>${faq.q}</span>
+                        <span id="faq-icon-${idx}" class="text-stone-400 ml-2">▼</span>
+                    </button>
+                    <div id="faq-content-${idx}" class="hidden px-4 py-3 bg-white border-t border-stone-200">
+                        <p class="font-bold text-red-800 mb-2">答: <span class="text-stone-800">${faq.a}</span></p>
+                        <p class="text-xs text-stone-600 bg-stone-50 p-2 rounded border border-stone-100"><strong>詳細・合格基準:</strong> ${faq.exp}</p>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function toggleFaq(idx) {
+            const content = document.getElementById(`faq-content-${idx}`);
+            const icon = document.getElementById(`faq-icon-${idx}`);
+            if(content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.textContent = '▲';
+            } else {
+                content.classList.add('hidden');
+                icon.textContent = '▼';
+            }
+        }
+
+        // CHARTS IMPLEMENTATION
+        let isTaxChartInitialized = false;
+        let taxChartInstance = null;
+
+        function initTaxChart() {
+            if (isTaxChartInitialized) return;
+            const ctx = document.getElementById('taxRevenueChart');
+            if (!ctx) return;
+            isTaxChartInitialized = true;
+            
+            taxChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['豊作の年', '並の年', '凶作の年', '大凶作の年'],
+                    datasets: [
+                        {
+                            label: '地租改正前の税収（お米での納税：天候や作柄に左右）',
+                            data: [15, 10, 4, 1],
+                            borderColor: 'rgb(217, 119, 6)',
+                            backgroundColor: 'rgba(217, 119, 6, 0.1)',
+                            fill: true,
+                            tension: 0.1
+                        },
+                        {
+                            label: '地租改正後の税収（地価を基準にした現金での納税：常に一定）',
+                            data: [10, 10, 10, 10],
+                            borderColor: 'rgb(185, 28, 28)',
+                            borderDash: [5, 5],
+                            fill: false,
+                            tension: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            title: { display: true, text: '税収の安定度（高＝予算が立てやすい）' },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        let isBudgetChartInitialized = false;
+        let budgetChartInstance = null;
+
+        function initBudgetChart() {
+            if (isBudgetChartInitialized) return;
+            const ctx = document.getElementById('militaryBudgetChart');
+            if (!ctx) return;
+            isBudgetChartInitialized = true;
+            
+            budgetChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['日露戦争時の軍事関連臨時予算（国民への大増税など）', '通常基本予算（教育、産業開発、内政など）'],
+                    datasets: [{
+                        data: [17, 3], 
+                        backgroundColor: [
+                            'rgba(185, 28, 28, 0.85)',
+                            'rgba(120, 113, 108, 0.3)'
+                        ],
+                        borderColor: [
+                            'rgb(185, 28, 28)',
+                            'rgb(120, 113, 108)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return " 全国家予算総和の 約 " + (context.raw * 5) + "% が軍費";
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = function() {
+            renderVocab();
+            renderFaqs();
+        };
+    </script>
+</body>
+</html>
