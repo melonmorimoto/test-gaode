@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz App</title>
+
+<style>
+  body {
+    font-family: sans-serif;
+    background: linear-gradient(135deg, #eef2f3, #d9e4f5);
+    display: flex;
+    justify-content: center;
+    margin: 0;
+  }
+
+  .container {
+    max-width: 600px;
+    width: 100%;
+    margin-top: 60px;
+  }
+
+  h1 { text-align: center; }
+
+  .card {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+
+  #question {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid #ddd;
+    font-size: 16px;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #4a90e2;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  button:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+  }
+
+  #feedback {
+    margin-top: 12px;
+    font-weight: bold;
+  }
+
+  .correct { color: green; }
+  .wrong { color: red; }
+
+  #result {
+    text-align: center;
+    font-size: 22px;
+    margin-top: 20px;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>📘 Quiz App</h1>
+
+  <div class="card">
+    <div id="question">問題</div>
+
+    <input type="text" id="input" placeholder="答えを入力">
+
+    <button onclick="checkAnswer()">回答する</button>
+    <button onclick="nextQuestion()" id="nextBtn" disabled>次の問題</button>
+
+    <div id="feedback"></div>
+  </div>
+
+  <div id="result"></div>
+</div>
+
+<script>
+
+/* ========================
+   問題データ
+======================== */
+const problems = [
+  { question: "地元の(単語)", answer: "regional" },
+  { question: "私は日本のアニメを何度も見たことがあります。", answer: "I have watched Japanese anime many times." },
+  { question: "Erynは日本の神社に一度も行ったことがないです。", answer: "Eryn has never been to a Japanese shrine." },
+  { question: "外国人(１語で)", answer: "foreigner" },
+  { question: "私はこれらの結果に驚いています。", answer: "I'm surprised by these results." },
+  { question: "あなたは日本のアニメのイベントに行ったことがありますか。", answer: "Have you been to an anime event in Japan?" },
+  { question: "調和する", answer: "match" },
+  { question: "どうしてアニメは他の国々でそんなに人気があるのでしょう。(makeを用いて)", answer: "What makes anime so popular in other countries?" },
+  { question: "子どもたちも大人も両方、アニメを見ることを楽しみます。", answer: "Both children and adults enjoy watching anime." },
+  { question: "無視する", answer: "ignore" },
+  { question: "最初の日本の漫画は800年以上前に描かれたと言われています。(800は数字で)", answer: "It is said that the first Japanese manga was drawn over 800 years ago." },
+  { question: "私はもう英語の作文を終わらせました。", answer: "I have already finished my English essay." },
+  { question: "私はまだ宿題が終わっていません。(haven'tを用いて)", answer: "I haven't finished my homework yet." }
+];
+
+let quizList = [];
+let index = 0;
+let score = 0;
+let answered = false;
+
+/* シャッフル */
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+/* 初期化 */
+function startQuiz() {
+  quizList = shuffle([...problems]);
+  index = 0;
+  score = 0;
+  answered = false;
+
+  document.getElementById("result").textContent = "";
+  loadQuestion();
+}
+
+/* 問題表示 */
+function loadQuestion() {
+  if (index >= quizList.length) {
+    showResult();
+    return;
+  }
+
+  document.getElementById("question").textContent =
+    quizList[index].question;
+
+  document.getElementById("input").value = "";
+  document.getElementById("feedback").textContent = "";
+
+  document.getElementById("nextBtn").disabled = true;
+  answered = false;
+}
+
+/* 回答チェック */
+function checkAnswer() {
+  if (answered) return;
+
+  const user = document.getElementById("input").value.trim();
+  const correct = quizList[index].answer.trim();
+
+  const fb = document.getElementById("feedback");
+
+  if (user === correct) {
+    fb.textContent = "⭕ 正解！";
+    fb.className = "correct";
+    score++;
+  } else {
+    fb.textContent = "❌ 不正解（正解：" + correct + "）";
+    fb.className = "wrong";
+  }
+
+  document.getElementById("nextBtn").disabled = false;
+  answered = true;
+}
+
+/* 次へ */
+function nextQuestion() {
+  index++;
+  loadQuestion();
+}
+
+/* 結果 */
+function showResult() {
+  document.querySelector(".card").style.display = "none";
+  document.getElementById("result").textContent =
+    `🎉 終了！スコア：${score} / ${quizList.length}`;
+}
+
+/* Enterキー対応 */
+document.getElementById("input").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") {
+    if (!answered) {
+      checkAnswer();
+    } else {
+      nextQuestion();
+    }
+  }
+});
+
+/* スタート */
+startQuiz();
+
+</script>
+
+</body>
+</html>
