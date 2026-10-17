@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中学公民 全9単元 完全攻略データベース | 教科書細部・入試頻出網羅</title>
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --primary-light: #eff6ff;
+            --accent-color: #d97706;
+            --accent-light: #fef3c7;
+            --warning-bg: #fff1f2;
+            --warning-border: #fecdd3;
+            --warning-text: #9f1239;
+            --tip-bg: #f0fdf4;
+            --tip-border: #bbf7d0;
+            --tip-text: #166534;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg-main: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans JP", sans-serif;
+            line-height: 1.75;
+            color: var(--text-main);
+            background-color: var(--bg-main);
+            padding-bottom: 60px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: -20px auto 0;
+            padding: 0 20px;
+        }
+
+        nav.toc {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        nav.toc h2 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav.toc ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 10px;
+        }
+
+        nav.toc a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background-color: var(--primary-light);
+            display: block;
+            transition: all 0.2s ease;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        nav.toc a:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        section.card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid var(--border-color);
+        }
+
+        h2.section-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 8px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3.subsection-title {
+            font-size: 1.2rem;
+            color: #1e3a8a;
+            margin: 24px 0 12px 0;
+            padding-left: 10px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        p {
+            margin-bottom: 16px;
+        }
+
+        /* Highlight Boxes */
+        .summary-box {
+            background-color: var(--primary-light);
+            border-left: 5px solid var(--primary-color);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 16px 0;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .warning-box {
+            background-color: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            border-left: 5px solid var(--warning-text);
+            color: var(--warning-text);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .warning-box h4 {
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+
+        .tip-box {
+            background-color: var(--tip-bg);
+            border: 1px solid var(--tip-border);
+            border-left: 5px solid var(--tip-text);
+            color: var(--tip-text);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .tip-box h4 {
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+        .badge-red { background: #fee2e2; color: #991b1b; }
+        .badge-blue { background: #dbeafe; color: #1e40af; }
+        .badge-yellow { background: #fef3c7; color: #92400e; }
+
+        /* Lists */
+        ul.styled-list, ol.styled-list {
+            padding-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        ul.styled-list li, ol.styled-list li {
+            margin-bottom: 8px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: #0f172a;
+            font-weight: 700;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        /* Quiz Accordions */
+        details.quiz-item {
+            background: #f1f5f9;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        details.quiz-item summary {
+            padding: 16px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            background: #ffffff;
+            transition: background 0.2s ease;
+        }
+
+        details.quiz-item summary:hover {
+            background: #f8fafc;
+        }
+
+        details.quiz-item .quiz-answer {
+            padding: 16px 20px;
+            background: #f0fdf4;
+            border-top: 1px solid var(--tip-border);
+            color: #1e293b;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.6rem; }
+            section.card { padding: 20px; }
+            nav.toc ul { grid-template-columns: 1fr; }
+            table { display: block; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🏛️ 中学公民 全9単元 完全攻略データベース</h1>
+        <p>「現代社会」「憲法・人権」「平和主義」教科書隅々・判例・頻出注釈まで完全網羅</p>
+    </header>
+
+    <div class="container">
+        <!-- 目次 -->
+        <nav class="toc">
+            <h2>📌 単元一覧ナビゲーション</h2>
+            <ul>
+                <li><a href="#unit1">単元1：現代社会の特色</a></li>
+                <li><a href="#unit2">単元2：現代社会の見方・考え方</a></li>
+                <li><a href="#unit3">単元3：現代社会の文化</a></li>
+                <li><a href="#unit4">単元4：法に基づく政治と日本国憲法</a></li>
+                <li><a href="#unit5">単元5：自由権</a></li>
+                <li><a href="#unit6">単元6：人権思想のあゆみ</a></li>
+                <li><a href="#unit7">単元7：平等権・社会権・参政権</a></li>
+                <li><a href="#unit8">単元8：新しい人権・公共の福祉</a></li>
+                <li><a href="#unit9">単元9：日本の平和主義</a></li>
+                <li><a href="#quiz">直前演習：入試頻出 一問一答</a></li>
+            </ul>
+        </nav>
+
+        <!-- 単元1 -->
+        <section id="unit1" class="card">
+            <h2 class="section-title">単元1：現代社会の特色</h2>
+            <div class="summary-box">
+                💡 現代社会の3大変化：「情報化」「グローバル化」「少子高齢化」
+            </div>
+
+            <h3 class="subsection-title">1. 3つの大変化と教科書注釈キーワード</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>変化項目</th>
+                        <th>詳細内容と基本用語</th>
+                        <th>教科書の隅・脚注・頻出ポイント</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>情報化</strong></td>
+                        <td>ICT（情報通信技術）の発達により、誰でも容易に情報を入手・発信可能。マスメディアから双方向のインターネット/SNSシフト。</td>
+                        <td>
+                            ・<span class="badge badge-red">最頻出</span><strong>デジタル・デバイド</strong>（年齢・地域・所得による情報格差）<br>
+                            ・<strong>メディア・リテラシー</strong>（情報を鵜呑みにせず識別・批判的に読み解く力）<br>
+                            ・情報モラル、著作権侵害、SNSでの発信者情報開示請求
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>グローバル化</strong></td>
+                        <td>国境を越えた人・モノ・金・情報の移動の活発化。国際分業が進み、各国が得意分野に特化して輸出入を行う。</td>
+                        <td>
+                            ・<strong>フードマイレージ</strong>（食料の輸送距離 × 輸送量とCO₂排出量）<br>
+                            ・<strong>バーチャルウォーター</strong>（輸入食料の生産に必要な仮想水）<br>
+                            ・多文化共生社会、エスノセントリズム（自文化中心主義）の克服
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>少子高齢化</strong></td>
+                        <td>合計特殊出生率の低下。65歳以上の高齢者人口割合が29%を超え超高齢社会へ。核家族化・単独世帯（一人暮らし）の急増。</td>
+                        <td>
+                            ・<strong>生産年齢人口（15〜64歳）</strong>の減少と従属人口比率の上昇<br>
+                            ・育児休業制度、介護休業法、社会保障費（医療・年金）の増大
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <h4>📊 入試コラム：人口ピラミッドの変遷</h4>
+                <p>日本は1950年代の<strong>「富士山型」</strong>（多産多死）➔ 1980年代の<strong>「釣鐘型」</strong>（少産少死）➔ 現在の<strong>「つぼ型」</strong>（少子高齢型）へと変化。<br>
+                支え手と受給者の比率は、かつての「騎馬戦型」から「肩車型」への変化が課題となっています。</p>
+            </div>
+        </section>
+
+        <!-- 単元2 -->
+        <section id="unit2" class="card">
+            <h2 class="section-title">単元2：現代社会の見方・考え方</h2>
+            <div class="summary-box">
+                💡 社会生活での意見の食い違い＝「対立」 ➔ 話し合いによる納得＝「合意」
+            </div>
+
+            <h3 class="subsection-title">1. 「効率」と「公正」の2大基準</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>評価基準</th>
+                        <th>定義と判定の視点</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>効率（きりつ）</strong></td>
+                        <td>費用・時間・労力を最小限にし、得られる成果を最大にすること。共通の資源やお金が無駄なく使われているかを判断する基準。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>公正（こうせい）</strong></td>
+                        <td>全員に不当な差別や排除がなく、発言や参加の機会が等しく保障されていること。「結果の公平」だけでなく「手続きの公正」も必須。</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <h4>⚠️ 差がつく発展：効率と公正のトレードオフ（ジレンマ）</h4>
+                <p>「効率」を求めすぎると、赤字の公立病院やバス路線が廃止され特定住民が不利益を被ります（公正の欠如）。逆に「公正」を求めすぎて全員の意見を個別に聞き続けると、時間と費用が膨大になります（効率の欠如）。<br>
+                ※合意形成では<strong>「全会一致」</strong>が理想ですが、困難な場合は<strong>「多数決の原理」</strong>を用います。ただし、事前に<strong>「十分な討論」</strong>と<strong>「少数意見の尊重」</strong>が必須条件です。</p>
+            </div>
+        </section>
+
+        <!-- 単元3 -->
+        <section id="unit3" class="card">
+            <h2 class="section-title">単元3：現代社会の文化</h2>
+
+            <h3 class="subsection-title">1. 文化の分類と権利保護</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>分類</th>
+                        <th>具体例と解説</th>
+                        <th>細部用語・教科書の注釈</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>伝統文化・芸術</strong></td>
+                        <td>歌舞伎・文楽・能楽などの伝統芸能、茶道・華道、和食や年中行事。地域の絆を維持する役割。</td>
+                        <td>
+                            ・<strong>文化財保護法</strong>（有形・無形民俗文化財、記念物）<br>
+                            ・<strong>ユネスコ無形文化遺産</strong>（和食・和紙・伝統建築工芸など）
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>世界の宗教</strong></td>
+                        <td>世界三大宗教（仏教・キリスト教・イスラム教）は、人々の食習慣や価値観に深く影響。</td>
+                        <td>
+                            ・イスラム教の<strong>ハラールフード</strong>、<strong>ラマダーン</strong>（断食）<br>
+                            ・異文化理解と<strong>文化相対主義</strong>（互いの文化を対等に尊重する考え）
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>文化・権利の保護</strong></td>
+                        <td>学術や芸術などの創作活動を保護し、文化の発達を図る。</td>
+                        <td>
+                            ・<strong>著作権（著作権法）</strong>：個人の死後70年間保護<br>
+                            ・肖像権、パブリックドメイン（知的創作物の公用化）
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 単元4 -->
+        <section id="unit4" class="card">
+            <h2 class="section-title">単元4：法に基づく政治と日本国憲法</h2>
+
+            <div class="warning-box">
+                <h4>⚠️ 入試最超頻出：「法の支配」vs「法治主義」の違い</h4>
+                <p>・<strong>法の支配（英米法）</strong>：憲法など「内容の正当性」を重視し、権力者の恣意的な支配（人の支配）を防ぐ概念。<br>
+                ・<strong>法治主義（ドイツ法）</strong>：法律の形式・手続きの厳格さを重視する概念（かつての絶対王政やナチスドイツ下でも形式上成立した歴史あり）。</p>
+            </div>
+
+            <h3 class="subsection-title">1. 憲法制定と改正手続き（第96条）</h3>
+            <ul class="styled-list">
+                <li><strong>制定プロセス</strong>：1945年ポツダム宣言受諾 ➔ GHQ草案をベースに帝国議会で審議。1946年11月3日公布 / 1947年5月3日施行。大日本帝国憲法（欽定憲法・主権天皇）から日本国憲法（民定憲法・主権在民）へ。※生存権（25条）などは議会修正で追加。</li>
+                <li><strong>改正手続き（第96条）</strong>：
+                    <ol class="styled-list">
+                        <li>各議院（衆参両院）の<strong>総議員の3/2以上</strong>の賛成で発議。</li>
+                        <li><strong>国民投票</strong>を実施し、有効投票の<strong>過半数</strong>の賛成で承認。</li>
+                        <li>天皇が国民の名で即日公布。</li>
+                    </ol>
+                    ※改正手続きが厳しい憲法を<strong>硬性憲法</strong>と呼ぶ。国民投票法（18歳以上投票権）に基づく。
+                </li>
+            </ul>
+
+            <h3 class="subsection-title">2. 天皇の国事行為（第6条・第7条）</h3>
+            <p>天皇は政治的権限を持たない「日本国および日本国民統合の象徴」（第1条）。内閣の<strong>「助言と承認」</strong>に基づいてのみ、内閣総理大臣の指名・最高裁判所長官の指名・法律の公布・衆議院の解散などの国事行為を行います。</p>
+        </section>
+
+        <!-- 単元5 -->
+        <section id="unit5" class="card">
+            <h2 class="section-title">単元5：自由権（国家からの自由）</h2>
+            <div class="summary-box">
+                💡 自由権＝国家権力から干渉や拘束を受けずに、自由に思考・行動する権利
+            </div>
+
+            <h3 class="subsection-title">1. 自由権の3大分類と判例</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>分類</th>
+                        <th>保障される権利と憲法条文</th>
+                        <th>重要判例・教科書注釈</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>精神の自由</strong></td>
+                        <td>
+                            ・思想・良心の自由（19条）<br>
+                            ・信教の自由（20条）/ <strong>政教分離の原則</strong><br>
+                            ・集会・結社・表現の自由（21条）/ <strong>検閲の禁止</strong><br>
+                            ・学問の自由（23条）
+                        </td>
+                        <td>
+                            <span class="badge badge-red">重要判例</span><br>
+                            ・<strong>津地地鎮祭訴訟</strong>（合憲判決）<br>
+                            ・<strong>愛媛玉ぐし料訴訟</strong>（違憲判決）<br>
+                            ・<strong>空知太神社訴訟</strong>（違憲判決）
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>身体の自由</strong></td>
+                        <td>
+                            ・奴隷的拘束・苦痛からの自由（18条）<br>
+                            ・適正手続きの保障（法定手続き：31条）<br>
+                            ・<strong>令状主義</strong>（33条, 35条：逮捕・捜索に裁判官の令状が必要）<br>
+                            ・拷問・残虐な刑罰の絶対禁止（36条）
+                        </td>
+                        <td>
+                            ・<strong>黙秘権</strong>（自分に不利益な証言を拒否する権利：38条）<br>
+                            ・自白のみでの有罪禁止（38条3項）<br>
+                            ・冤罪と再審制度、刑事被告人の弁護人依頼権
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>経済活動の自由</strong></td>
+                        <td>
+                            ・居住・移転・職業選択の自由（22条1項）<br>
+                            ・外国移住・国籍離脱の自由（22条2項）<br>
+                            ・財産権の不可侵（29条）
+                        </td>
+                        <td>
+                            <span class="badge badge-red">判例</span> <strong>薬局距離制限事件</strong>（職業選択の自由を不当に侵害し違憲判決）。
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <h4>⚖️ 差がつく判例知識：消極目的規制と積極目的規制</h4>
+                <p>経済活動の自由に対する制限は2つに分類されます。<br>
+                ・<strong>消極目的規制</strong>：国民の生命や健康を守るための制限（例：薬局距離制限は不当と判断）。<br>
+                ・<strong>積極目的規制</strong>：弱者保護や経済の均等発展を目指す制限（例：中小企業保護、公衆浴場の配置制限）。</p>
+            </div>
+        </section>
+
+        <!-- 単元6 -->
+        <section id="unit6" class="card">
+            <h2 class="section-title">単元6：人権思想のあゆみ</h2>
+
+            <h3 class="subsection-title">1. 近代市民革命と4大思想家</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>思想家（国）</th>
+                        <th>主著・思想・歴史的出来事</th>
+                        <th>名言・関連文書・年号</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>ロック（英）</strong></td>
+                        <td>『統治二論（市民政府二論）』。天賦の人権を守るため政府に信託。政府が侵せば<strong>抵抗権（革命権）</strong>を行使できる。</td>
+                        <td>1689年 <strong>権利の章典</strong>（名誉革命後）に重大な影響。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ルソー（仏）</strong></td>
+                        <td>『社会契約論』。<strong>人民主権</strong>と<strong>直接民主制</strong>を主張。</td>
+                        <td>1789年 <strong>フランス人権宣言</strong>（第1条「人は自由かつ平等に生まれる」）。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>モンテスキュー（仏）</strong></td>
+                        <td>『法の精神』。権力の集中を防ぐため<strong>三権分立</strong>（立法・行政・司法）を唱える。</td>
+                        <td>1776年 <strong>アメリカ独立宣言</strong>（ジェファーソン起草）等に反映。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ホッブズ（英）</strong></td>
+                        <td>『リヴァイアサン』。自然状態を<strong>「万人の万人に対する闘争」</strong>と表現。</td>
+                        <td>絶対王政から社会契約論への架け橋。</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="subsection-title">2. 人権文書の歴史的年表</h3>
+            <ul class="styled-list">
+                <li><strong>1215年 マグナ・カルタ（大憲章）</strong>：王権の制限（イギリス）。</li>
+                <li><strong>1919年 ワイマール憲法（ドイツ）</strong>：世界で初めて<strong>「生存権（社会権）」</strong>を規定。</li>
+                <li><strong>1948年 世界人権宣言（国練）</strong> ➔ <strong>1966年 国際人権規約</strong>（法的拘束力あり）。</li>
+                <li><strong>1979年 女子差別撤廃条約</strong> / <strong>1989年 児童の権利条約</strong>。</li>
+            </ul>
+        </section>
+
+        <!-- 単元7 -->
+        <section id="unit7" class="card">
+            <h2 class="section-title">単元7：平等権・社会権・参政権</h2>
+
+            <h3 class="subsection-title">1. 平等権（憲法第14条：法の下の平等）</h3>
+            <p>人種、信条、性別、社会的身分、門地による差別を禁止。</p>
+            <ul class="styled-list">
+                <li><strong>男女雇用機会均等法</strong>（1985年制定 / 1997年差別禁止明記）</li>
+                <li><strong>男女共同参画社会基本法</strong>（1999年）</li>
+                <li><strong>アイヌ施策推進法</strong>（2019年：アイヌ民族を「先住民族」と明記）</li>
+                <li><strong>障害者差別解消法</strong>（合理的配慮の義務化）/ <strong>ヘイトスピーチ解消法</strong>（2016年）</li>
+            </ul>
+
+            <h3 class="subsection-title">2. 社会権（20世紀的権利・「国家による自由」）</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>権利名</th>
+                        <th>憲法規定内容</th>
+                        <th>裁判判例・関連法</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>生存権（25条）</strong></td>
+                        <td>「すべて国民は、健康で文化的な最低限度の生活を営む権利を有する。」（1項）<br>国の社会福祉・社会保障の向上義務（2項）。</td>
+                        <td>
+                            <span class="badge badge-red">判例</span><br>
+                            ・<strong>朝日訴訟</strong>（生活保護費水準）<br>
+                            ・<strong>堀木訴訟</strong>（児童扶養手当）<br>
+                            ※25条は国に政治的目標を示しただけの<strong>「プログラム規定説」</strong>と解釈される。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>教育を受ける権利（26条）</strong></td>
+                        <td>能力に応じて等しく教育を受ける権利。子どもに普通教育を受けさせる義務。<strong>義務教育は無償</strong>（26条2項）。</td>
+                        <td>※無償なのは「授業料」であり、教科書以外の学用品代等は含まれません。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>労働基本権（28条）<br>（労働三権）</strong></td>
+                        <td>①<strong>団結権</strong>（労働組合を作る権利）<br>②<strong>団体交渉権</strong>（使用者と対等に交渉する権利）<br>③<strong>団体行動権（争議権）</strong>（ストライキ等）</td>
+                        <td>・労働三法：<strong>労働基準法・労働組合法・労働関係調整法</strong><br>※公務員は公共の福祉のため争議権等が制限される。</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="subsection-title">3. 参政権・請求権</h3>
+            <ul class="styled-list">
+                <li><strong>参政権（15条）</strong>：公務員選定罷免権、18歳以上選挙権、最高裁判所裁判官の国民審査、地方自治法の住民投票。</li>
+                <li><strong>請求権</strong>：裁判を受ける権利（32条）、国家賠償請求権（17条）、刑事補償請求権（40条）、請願権（16条）。</li>
+            </ul>
+        </section>
+
+        <!-- 単元8 -->
+        <section id="unit8" class="card">
+            <h2 class="section-title">単元8：新しい人権・公共の福祉</h2>
+            <div class="summary-box">
+                💡 新しい人権の根拠：憲法第13条「幸福追求権（個人の尊重）」
+            </div>
+
+            <h3 class="subsection-title">1. 主な新しい人権</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>権利名</th>
+                        <th>詳細と保障の背景</th>
+                        <th>法制度・判例・キーワード</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>環境権</strong></td>
+                        <td>日照・静穏な環境を保つ権利。公害問題や開発から生活環境を守る。</td>
+                        <td>
+                            ・環境基本法・環境アセスメント（評価）法<br>
+                            ・判例：<strong>日照権訴訟</strong>、<strong>大阪空港訴訟</strong>（夜間公害）
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>知る権利</strong></td>
+                        <td>政府が持つ情報の開示を求める権利（表現の自由第21条から派生）。</td>
+                        <td>・<strong>情報公開法</strong>（1999年制定）<br>※特定秘密保護法とのバランスが課題。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>プライバシーの権利</strong></td>
+                        <td>私生活上の事実を公開されない権利、および「自己の情報をコントロールする権利」。</td>
+                        <td>・個人情報保護法、マイナンバー制度（社会保障・税番号制度）<br>・判例：<strong>『宴のあと』訴訟</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>自己決定権</strong></td>
+                        <td>自分の生き方や医療行為について他者からの干渉を受けず決定する権利。</td>
+                        <td>・<strong>インフォームド・コンセント</strong>（説明と同意）<br>・臓器移植法、リプロダクティブ・ヘルス/ライツ</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <h4>⚠️ 最重要概念：「公共の福祉」と「国民の三大義務」</h4>
+                <p>人権は他人の人権と衝突することがあります。この衝突を調整する社会全体の共通の利益を<strong>「公共の福祉」</strong>（第12条・13条）と言います。（※表現の自由など精神の自由権に対する適用は極めて厳格であるべきとされます）。<br>
+                <strong>【国民の三大義務】</strong><br>
+                ①子どもに普通教育を受けさせる義務（26条2項）<br>
+                ②勤労の義務（27条1項）<br>
+                ③納税の義務（30条）</p>
+            </div>
+        </section>
+
+        <!-- 単元9 -->
+        <section id="unit9" class="card">
+            <h2 class="section-title">単元9：日本の平和主義</h2>
+
+            <h3 class="subsection-title">1. 憲法第9条の規定</h3>
+            <ul class="styled-list">
+                <li><strong>第9条第1項</strong>：国権の発動たる戦争の放棄、武力による威嚇又は武力の行使は、国際紛争を解決する手段としては永久に放棄する（1928年不戦条約や国連憲章の理念を継承）。</li>
+                <li><strong>第9条第2項</strong>：陸海空軍その他の戦力の不保持。国の交戦権の否認。</li>
+            </ul>
+
+            <h3 class="subsection-title">2. 防衛政策と安全保障</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>政策・基本原則</th>
+                        <th>具体的な規定・条約・課題</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>専守防衛</strong></td>
+                        <td>相手から攻撃を受けたときに初めて防衛力を行使する、自衛のための必要最小限度の武力行使。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>文民統制（シビリアン・コントロール）</strong></td>
+                        <td>軍人が政治を支配するのを防ぐため、内閣総理大臣その他の国務大臣は「文民」でなければならない（66条2項）。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>非核三原則</strong></td>
+                        <td>「持たず、作らず、持ち込ませず」（佐藤栄作首相が提唱）。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>日米安全保障条約</strong></td>
+                        <td>1951年締結・1960年改定。日米共同防衛と米軍基地提供。日米地位協定、沖縄基地問題（普天間基地返還と辺野古移設）。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>国際貢献</strong></td>
+                        <td>1992年 <strong>PKO協力法</strong>（国連平和維持活動協力法、PKO参加5原則）。2021年発効核兵器禁止条約。</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <h4>📰 教科書の隅：集団的自衛権と安保関連法（2015年）</h4>
+                <p>他国への攻撃を自国への攻撃とみなして反撃する<strong>「集団的自衛権」</strong>。<br>
+                2014年の閣議決定による解釈変更を経て、2015年に<strong>安全保障関連法</strong>が成立し、「存立危機事態」における限定的な集団的自衛権の行使が可能となりました。</p>
+            </div>
+        </section>
+
+        <!-- 一問一答演習 -->
+        <section id="quiz" class="card">
+            <h2 class="section-title">直前演習：入試頻出 一問一答テスト</h2>
+            <p>問題をクリック（タップ）すると解答と解説が表示されます。</p>
+
+            <details class="quiz-item">
+                <summary>【問1】 (社会の特色) 年齢や地域、所得の違いによって生じる情報アクセスの格差を何といいますか？</summary>
+                <div class="quiz-answer">
+                    <strong>正解：デジタル・デバイド</strong><br>
+                    <strong>解説：</strong>情報通信技術（ICT）を利用できる人とできない人の間に生じる格差のことです。
+                </div>
+            </details>
+
+            <details class="quiz-item">
+                <summary>【問2】 (見方・考え方) 共通の資源や時間を無駄なく使う判定基準を「効率」というのに対し、機会や手続きに不当な差別がないかをみる基準を何といいますか？</summary>
+                <div class="quiz-answer">
+                    <strong>正解：公正（こうせい）</strong><br>
+                    <strong>解説：</strong>対立の合意形成において、「効率」と「公正」のバランス（トレードオフの克服）が求められます。
+                </div>
+            </details>
+
+            <details class="quiz-item">
+                <summary>【問3】 (憲法) 憲法改正において、各議院の総議員の何以上の賛成で発議されますか？</summary>
+                <div class="quiz-answer">
+                    <strong>正解：3分の2以上</strong><br>
+                    <strong>解説：</strong>第96条。衆参各議院の「出席議員」ではなく「総議員」の3分の2以上である点が引っかけ問題で頻出です。
+                </div>
+            </details>
+
+            <details class="quiz-item">
+                <summary>【問4】 (人権思想) 『統治二論』を著し、政府が天賦の人権を侵害した場合には「抵抗権（革命権）」を行使できると唱えたイギリスの思想家は誰ですか？</summary>
+                <div class="quiz-answer">
+                    <strong>正解：ロック</strong><br>
+                    <strong>解説：</strong>ロックの思想は1689年の権利の章典や1776年のアメリカ独立宣言に影響を与えました。
+                </div>
+            </details>
+
+            <details class="quiz-item">
+                <summary>【問5】 (社会権) 1919年にドイツで制定され、世界で初めて「生存権（社会権）」を保障した憲法は何ですか？</summary>
+                <div class="quiz-answer">
+                    <strong>正解：ワイマール憲法</strong><br>
+                    <strong>解説：</strong>ワイマール憲法は20世紀的権利である社会権を世界で初めて明記しました。
+                </div>
+            </details>
+
+            <details class="quiz-item">
+                <summary>【問6】 (平和主義) 軍人が政治を支配するのを防ぐため、内閣総理大臣その他の国務大臣は「文民」でなければならないとする原則を何といいますか？</summary>
+                <div class="quiz-answer">
+                    <strong>正解：文民統制（シビリアン・コントロール）</strong><br>
+                    <strong>解説：</strong>憲法第66条第2項に規定されています。
+                </div>
+            </details>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 中学公民全9単元完全攻略データベース | 高校入試・定期テスト対策</p>
+    </footer>
+
+</body>
+</html>

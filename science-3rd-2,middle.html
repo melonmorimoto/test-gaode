@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中学理科・物理＆天体 完全攻略マスターガイド</title>
+    <style>
+        :root {
+            --primary-color: #1b4332;
+            --primary-light: #e8f5e9;
+            --accent-color: #2d6a4f;
+            --warning-bg: #fff5f5;
+            --warning-border: #feb2b2;
+            --warning-text: #c53030;
+            --tip-bg: #eef2ff;
+            --tip-border: #c7d2fe;
+            --tip-text: #3730a3;
+            --text-main: #2d3748;
+            --text-muted: #718096;
+            --bg-main: #f4f7f6;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans JP", sans-serif;
+            line-height: 1.75;
+            color: var(--text-main);
+            background-color: var(--bg-main);
+            padding-bottom: 60px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1b4332 0%, #40916c 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 920px;
+            margin: -20px auto 0;
+            padding: 0 20px;
+        }
+
+        nav.toc {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        nav.toc h2 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav.toc ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 10px;
+        }
+
+        nav.toc a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background-color: var(--primary-light);
+            display: block;
+            transition: all 0.2s ease;
+        }
+
+        nav.toc a:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        section.card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid var(--border-color);
+        }
+
+        h2.section-title {
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 8px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3.subsection-title {
+            font-size: 1.25rem;
+            color: #1b4332;
+            margin: 24px 0 12px 0;
+            padding-left: 10px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        p {
+            margin-bottom: 16px;
+        }
+
+        /* Highlight Boxes */
+        .summary-box {
+            background-color: var(--primary-light);
+            border-left: 5px solid var(--accent-color);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 16px 0;
+            font-weight: 600;
+            color: #1b4332;
+        }
+
+        .warning-box {
+            background-color: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            border-left: 5px solid var(--warning-text);
+            color: var(--warning-text);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .warning-box h4 {
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+
+        .tip-box {
+            background-color: var(--tip-bg);
+            border: 1px solid var(--tip-border);
+            border-left: 5px solid var(--tip-text);
+            color: var(--tip-text);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .tip-box h4 {
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+
+        .formula-box {
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 16px 20px;
+            border-radius: 8px;
+            font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 1.05rem;
+            margin: 16px 0;
+            text-align: center;
+        }
+
+        .formula-box span.highlight {
+            color: #f6ad55;
+            font-weight: bold;
+        }
+
+        /* Lists */
+        ul.styled-list, ol.styled-list {
+            padding-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        ul.styled-list li, ol.styled-list li {
+            margin-bottom: 8px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #e2e8f0;
+            color: #1a202c;
+            font-weight: 700;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        /* Quiz Accordions */
+        details.quiz-item {
+            background: #edf2f7;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        details.quiz-item summary {
+            padding: 16px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            background: #ffffff;
+            transition: background 0.2s ease;
+        }
+
+        details.quiz-item summary:hover {
+            background: #f7fafc;
+        }
+
+        details.quiz-item .quiz-answer {
+            padding: 16px 20px;
+            background: #f0fff4;
+            border-top: 1px solid var(--tip-border);
+            color: #1a202c;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.6rem; }
+            section.card { padding: 20px; }
+            nav.toc ul { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🔬 中学理科 完全攻略マスターガイド</h1>
+        <p>【日周運動 ・ 水圧 ・ 浮力 ・ 力の合成と分解 ・ 力と運動】</p>
+    </header>
+
+    <div class="container">
+        <!-- 目次 -->
+        <nav class="toc">
+            <h2>📌 目次</h2>
+            <ul>
+                <li><a href="#section1">第1章：天体の日周運動</a></li>
+                <li><a href="#section2">第2章：水圧（メカニズムと計算）</a></li>
+                <li><a href="#section3">第3章：浮力（原理とテストの罠）</a></li>
+                <li><a href="#section4">第4章：力の合成・分解・つり合い</a></li>
+                <li><a href="#section5">第5章：力と運動（慣性・作用反作用・斜面）</a></li>
+                <li><a href="#section6">第6章：テスト直前チェック！演習問題</a></li>
+            </ul>
+        </nav>
+
+        <!-- 第1章：日周運動 -->
+        <section id="section1" class="card">
+            <h2 class="section-title">第1章：天体の日周運動</h2>
+            <div class="summary-box">
+                💡 鉄則：日周運動は<strong>地球の自転（西から東）</strong>によって起こる見かけの運動！<br>
+                1時間で<strong>15度</strong>、1日で<strong>360度</strong>東から西（北の空は北極星を中心に反時計回り）へ移動する。
+            </div>
+
+            <h3 class="subsection-title">1. 空の方角ごとの星の動き</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>方角</th>
+                        <th>動きの向き</th>
+                        <th>見え方・特徴</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>東の空</strong></td>
+                        <td>右上がり（南に向かってのぼる）</td>
+                        <td>斜め上に昇っていく</td>
+                    </tr>
+                    <tr>
+                        <td><strong>南の空</strong></td>
+                        <td>東 ➔ 西（左から右へ水平）</td>
+                        <td>南中高度が最も高くなる</td>
+                    </tr>
+                    <tr>
+                        <td><strong>西の空</strong></td>
+                        <td>右下がり（沈む）</td>
+                        <td>斜め下に沈んでいく</td>
+                    </tr>
+                    <tr>
+                        <td><strong>北の空</strong></td>
+                        <td><strong>北極星を中心に「反時計回り」</strong></td>
+                        <td>北極星はほとんど動かない（地軸の延長線上にあるため）</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="subsection-title">2. 透明半球と太陽の動きの計算パターン</h3>
+            <p>透明半球を使った問題は比例計算が命です！</p>
+            <div class="tip-box">
+                <h4>📐 透明半球計算の基本公式</h4>
+                <p><code>1時間の移動距離 (cm) ＝ 測定した長さ (cm) ÷ かかった時間 (時間)</code></p>
+                <p>・<strong>日の出・日の入りの時刻計算</strong>：サインペンで記入した点と点の間の長さを測定し、1時間あたりの長さに換算して逆算します。</p>
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ テストの罠：サインペンの影の位置</h4>
+                <p>透明半球に太陽の位置を記録するときは、「サインペンの先端の影が、底面の中心点（O）に重なる位置」に点を打ちます。よく「中心から太陽を見る」など誤った選択肢が出るので注意！</p>
+            </div>
+        </section>
+
+        <!-- 第2章：水圧 -->
+        <section id="section2" class="card">
+            <h2 class="section-title">第2章：水圧（メカニズムと性質）</h2>
+            <div class="summary-box">
+                💡 鉄則：水圧は<strong>「その場所より上にある水の重さ」</strong>によって生じる！
+            </div>
+
+            <h3 class="subsection-title">1. 水圧の3大特徴</h3>
+            <ul class="styled-list">
+                <li><strong>深い場所ほど大きい</strong>（上にある水の量が増えるため）。</li>
+                <li><strong>あらゆる方向から面に対して「垂直」にはたらく</strong>（上からだけでなく、下や横からも押される）。</li>
+                <li><strong>同じ深さであれば、どの向きの水圧も同じ大きさ</strong>。</li>
+            </ul>
+
+            <div class="formula-box">
+                水深 1 cm につき <span class="highlight">約 100 Pa</span>（1 cm² あたり 約 1 g ＝ 0.01 N）増加する
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ 混同注意：水圧と大気圧</h4>
+                <p>水中にある物体には、水圧だけでなく「空気の重さによる圧力（大気圧）」も上からかかっています。<br>
+                ・大気圧 ＝ 約 1013 hPa（ヘクトパスカル）＝ 約 101300 Pa<br>
+                ・水圧は「水深だけに比例」して大きくなります。</p>
+            </div>
+        </section>
+
+        <!-- 第3章：浮力 -->
+        <section id="section3" class="card">
+            <h2 class="section-title">第3章：浮力（原理とテストの罠）</h2>
+            <div class="summary-box">
+                💡 鉄則：浮力 ＝ <strong>物体が押しのけた水の重さ</strong>（＝ 上下の水圧の差）
+            </div>
+
+            <h3 class="subsection-title">1. 浮力が発生する仕組み</h3>
+            <p>物体が水中にあるとき、物体の「上面にかかる下向きの水圧」よりも、「下面にかかる上向きの水圧」の方が<strong>深い位置にあるため大きい</strong>です。この上下の水圧の差（力の差）が「浮力」です。</p>
+
+            <div class="formula-box">
+                浮力 [N] ＝ <span class="highlight">空気中でのばねばかりの示す値 [N]</span> － <span class="accent">水中でのばねばかりの示す値 [N]</span>
+            </div>
+
+            <h3 class="subsection-title">2. 浮力の大きさを決める要素</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>関係する要素 ⭕</th>
+                        <th>無関係な要素 ❌（テスト超頻出！）</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>・<strong>水中にある物体の体積</strong>（大きいほど浮力大）<br>・液体の密度（水より重い食塩水だと浮力大）</td>
+                        <td>・<strong>物体の深さ</strong>（完全に沈んだ後は深くなっても浮力は変化しない！）<br>・物体の質量・材質（鉄でも木でも体積が同じなら浮力は同じ）<br>・底面積や形</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <h4>⚠️ 最強の引っかけ問題：「完全に沈めた後、さらに深く沈めると浮力はどうなる？」</h4>
+                <p><strong>答え：変わらない！</strong><br>
+                理由：水深が深くなると上からの水圧も下からの水圧も両方増えますが、<strong>上下の水圧の「差」は一定</strong>だからです。グラフ問題で「途中で横ばい（一定）になるグラフ」を選ぶ問題が超頻出です！</p>
+            </div>
+        </section>
+
+        <!-- 第4章：力の合成・分解・つり合い -->
+        <section id="section4" class="card">
+            <h2 class="section-title">第4章：力の合成・分解・つり合い</h2>
+            <div class="summary-box">
+                💡 鉄則：2つの力と同じはたらきをする1つの力を求めるのが<strong>力の合成（合力）</strong>！
+            </div>
+
+            <h3 class="subsection-title">1. 合力の作図（平行四辺形の法則）</h3>
+            <p>角度をもってはたらく2力 F_1, F_2 の合力 F は、その2力を隣り合う2辺とする平行四辺形の対角線になります。</p>
+
+            <div class="tip-box">
+                <h4>📐 2力の角度と合力の大きさの関係</h4>
+                <p>・2力のなす角度が<strong>狭い（0度に近づく）</strong> ➔ 合力は<strong>大きく</strong>なる（最大は同方向で足し算）。<br>
+                ・2力のなす角度が<strong>広い（180度に近づく）</strong> ➔ 合力は<strong>小さく</strong>なる（180度で引き算）。</p>
+            </div>
+
+            <h3 class="subsection-title">2. 「2力のつり合い」と「作用・反作用」の徹底比較</h3>
+            <p>入試で最も受験生が間違えるテーマです！対象となる「物体」に着目しましょう。</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>項目</th>
+                        <th>2力のつり合い</th>
+                        <th>作用・反作用の法則</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>働いている物体の数</strong></td>
+                        <td><strong>1つの物体</strong>に2つの力がはたらく</td>
+                        <td><strong>2つの物体</strong>が互いに力を及ぼし合う</td>
+                    </tr>
+                    <tr>
+                        <td><strong>主語・目的語の関係</strong></td>
+                        <td>Aが<b>Cを</b>押す力 ＆ Bが<b>Cを</b>押す力<br>（受ける物体が同じC）</td>
+                        <td>Aが<b>Bを</b>押す力 ＆ Bが<b>Aを</b>押し返す力<br>（主語と目的語が逆転）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>力の合成・打ち消し</strong></td>
+                        <td>合成して0にできる（合力が0）</td>
+                        <td>別々の物体にはたらくため合成できない</td>
+                    </tr>
+                    <tr>
+                        <td><strong>例（机の上の本）</strong></td>
+                        <td>「地球が<b>本を</b>引く力（重力）」と<br>「机が<b>本を</b>押す力（垂直抗力）」</td>
+                        <td>「本が<b>机を</b>押す力」と<br>「机が<b>本を</b>押し返す力（垂直抗力）」</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 第5章：力と運動 -->
+        <section id="section5" class="card">
+            <h2 class="section-title">第5章：力と運動（慣性・斜面・グラフ）</h2>
+
+            <h3 class="subsection-title">1. 慣性の法則（Inertia）</h3>
+            <p>物体に外部から力がはたらいていない（または力がつり合っている）とき：</p>
+            <ul class="styled-list">
+                <li>静止している物体 ➔ <strong>静止し続けようとする</strong></li>
+                <li>運動している物体 ➔ <strong>等速直線運動を続けようとする</strong></li>
+            </ul>
+            <p><strong>【日常生活の例】</strong><br>
+            ・電車が急発進すると後ろに倒れそうになる／急ブレーキで前に倒れそうになる。<br>
+            ・だるま落としで、叩いた段だけが弾き飛んで上の段はそのまま落ちてくる。</p>
+
+            <h3 class="subsection-title">2. 斜面上の運動と速さの変化</h3>
+            <p>斜面上の物体には、「斜面に沿って下向きの分力」が常にはたらき続けます。</p>
+            <ul class="styled-list">
+                <li><strong>斜面の角度が大きいほど</strong> ➔ 斜面下向きの力が<strong>大きく</strong>なり、速さが増える割合（加速度）が大きくなる。</li>
+                <li><strong>力が加わり続ける運動</strong> ➔ 時間に比例して速さがだんだん速くなる。</li>
+                <li><strong>平らな面（摩擦なし）に出た後</strong> ➔ 運動方向に力がはたらいていないため、等速直線運動になる。</li>
+            </ul>
+
+            <h3 class="subsection-title">3. テストによく出る運動のグラフ見分け方</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>運動の種類</th>
+                        <th>「速さと時間」のグラフ ($v-t$)</th>
+                        <th>「距離と時間」のグラフ ($x-t$)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>等速直線運動</strong><br>（力がはたらいていない）</td>
+                        <td><strong>水平な直線</strong>（速さは一定）</td>
+                        <td><strong>原点を通る傾いた直線</strong>（距離は時間に比例）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>速さがだんだん増す運動</strong><br>（一定の力がはたらき続ける）</td>
+                        <td><strong>原点を通る右上がりの直線</strong>（速さは時間に比例）</td>
+                        <td><strong>上に向かってカーブする曲線</strong>（距離が急増）</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 第6章：確認テスト -->
+        <section id="section6" class="card">
+            <h2 class="section-title">第6章：テスト直前チェック！演習問題</h2>
+            <p>問題をクリック（タップ）すると解答と解説が表示されます。</p>
+
+            <details class="quiz-item">
+                <summary>【問1】 (天体) 北の空の星を観察すると、北極星を中心にどちら向きに1時間あたり何度回転して見えますか？</summary>
+                <div class="quiz-answer">
+                    <strong>正解：反時計回りに15度</strong><br>
+                    <strong>解説：</strong>地球が西から東へ自転しているため、北の空の星は北極星を中心に「反時計回り」に回転して見えます。1日は24時間で360度回転するので、360 ÷ 24 ＝ 15度/時間 です。
+                </div>
+            </details>
+
+            <details class="quiz-item">
+                <summary>【問2】 (浮力) 100g (1N) の直方体の物体をばねばかりにつるして完全に水中に沈めたところ、ばねばかりの目盛りが 0.6N を指しました。この物体にはたらく浮力は何 N ですか？</summary>
+                <div class="quiz-answer">
+                    <strong>正解：0.4 N</strong><br>
+                    <strong>解説：</strong>浮力 ＝ 空気中での重さ － 水中での重さ ＝ 1.0 N － 0.6 N ＝ 0.4 N となります。
+                </div>
+            </details>
+
+            <details class="quiz-item">
+                <summary>【問3】 (浮力・極重要) 問2の物体を、さらに 10 cm 深い位置まで沈めました。このとき物体にはたらく浮力はどうなりますか？</summary>
+                <div class="quiz-answer">
+                    <strong>正解：変わらない（0.4 N のまま）</strong><br>
+                    <strong>解説：</strong>完全の水中に入った後は、深さが変わっても「押しのける水の体積」が変わらないため、浮力は変化しません。
+                </div>
+            </details>
+
+            <details class="quiz-item">
+                <summary>【問4】 (力学) 「机の上にりんごおいたとき」とき、リンゴが机を押す力の「作用・反作用」にあたる力は何ですか？</summary>
+                <div class="quiz-answer">
+                    <strong>正解：</strong>机がリンゴを押す力<br>
+                    <strong>解説：</strong>リンゴが机を押す力に対して、逆向き方向に働いている力は、「机がリンゴを押す力」
+                </div>
+            </details>
+
+            <details class="quiz-item">
+                <summary>【問5】 (運動) 水平面上をすべる台車に加わる摩擦や空気の抵抗を無視できるとき、台車はどのような運動を続けますか？また、その理由も答えなさい。</summary>
+                <div class="quiz-answer">
+                    <strong>正解：等速直線運動（理由は慣性があるため／運動方向に力がはたらいていないため）</strong><br>
+                    <strong>解説：</strong>力がはたらいていないとき、動いている物体は「慣性」によって同じ速さで直線的に運動（等速直線運動）を続けます。
+                </div>
+            </details>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 中学理科完全攻略マスターガイド | 定期テスト・高校入試対策</p>
+    </footer>
+
+</body>
+</html>
