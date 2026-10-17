@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中学英語・難所攻略マスターガイド | 間接疑問文・後置修飾・関係代名詞</title>
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --primary-light: #ebf8ff;
+            --accent-color: #3182ce;
+            --warning-bg: #fff5f5;
+            --warning-border: #feb2b2;
+            --warning-text: #c53030;
+            --tip-bg: #f0fff4;
+            --tip-border: #9ae6b4;
+            --tip-text: #22543d;
+            --text-main: #2d3748;
+            --text-muted: #718096;
+            --bg-main: #f7fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans JP", sans-serif;
+            line-height: 1.7;
+            color: var(--text-main);
+            background-color: var(--bg-main);
+            padding-bottom: 60px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: -20px auto 0;
+            padding: 0 20px;
+        }
+
+        nav.toc {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        nav.toc h2 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav.toc ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+        }
+
+        nav.toc a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background-color: var(--primary-light);
+            display: block;
+            transition: all 0.2s ease;
+        }
+
+        nav.toc a:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        section.card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid var(--border-color);
+        }
+
+        h2.section-title {
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 8px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3.subsection-title {
+            font-size: 1.25rem;
+            color: #2c5282;
+            margin: 24px 0 12px 0;
+            padding-left: 10px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        p {
+            margin-bottom: 16px;
+        }
+
+        /* Highlight Boxes */
+        .summary-box {
+            background-color: var(--primary-light);
+            border-left: 5px solid var(--accent-color);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 16px 0;
+            font-weight: 600;
+        }
+
+        .warning-box {
+            background-color: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            border-left: 5px solid var(--warning-text);
+            color: var(--warning-text);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .warning-box h4 {
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tip-box {
+            background-color: var(--tip-bg);
+            border: 1px solid var(--tip-border);
+            border-left: 5px solid var(--tip-text);
+            color: var(--tip-text);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .tip-box h4 {
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+
+        /* Code & Syntax styles */
+        .syntax-block {
+            background-color: #2d3748;
+            color: #f7fafc;
+            padding: 14px 18px;
+            border-radius: 8px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 1rem;
+            margin: 12px 0 20px;
+            letter-spacing: 0.03em;
+        }
+
+        .syntax-block span.highlight {
+            color: #f6ad55;
+            font-weight: bold;
+        }
+
+        .syntax-block span.accent {
+            color: #63b3ed;
+            font-weight: bold;
+        }
+
+        /* Examples List */
+        .example-list {
+            list-style: none;
+            margin: 16px 0;
+        }
+
+        .example-list li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 12px;
+        }
+
+        .example-list li.correct::before {
+            content: "⭕";
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .example-list li.wrong::before {
+            content: "✖";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--warning-text);
+            font-weight: bold;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #edf2f7;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        /* Quiz Accordions */
+        details.quiz-item {
+            background: #edf2f7;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        details.quiz-item summary {
+            padding: 16px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            background: #ffffff;
+            transition: background 0.2s ease;
+        }
+
+        details.quiz-item summary:hover {
+            background: #f7fafc;
+        }
+
+        details.quiz-item .quiz-answer {
+            padding: 16px 20px;
+            background: #f0fff4;
+            border-top: 1px solid var(--tip-border);
+            color: #1a202c;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.6rem; }
+            section.card { padding: 20px; }
+            nav.toc ul { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🚀 中3英語 難所攻略マスターガイド</h1>
+        <p>【間接疑問文 ・ 分詞の後置修飾 ・ 関係代名詞】テスト完全攻略</p>
+    </header>
+
+    <div class="container">
+        <!-- 目次 -->
+        <nav class="toc">
+            <h2>📌 目次</h2>
+            <ul>
+                <li><a href="#section1">第1章：間接疑問文</a></li>
+                <li><a href="#section2">第2章：分詞の後置修飾</a></li>
+                <li><a href="#section3">第3章：関係代名詞</a></li>
+                <li><a href="#section4">第4章：テスト頻出！比較＆見分け方</a></li>
+                <li><a href="#section5">第5章：一問一答・確認演習</a></li>
+            </ul>
+        </nav>
+
+        <!-- 第1章：間接疑問文 -->
+        <section id="section1" class="card">
+            <h2 class="section-title">第1章：間接疑問文</h2>
+            <div class="summary-box">
+                💡 鉄則：文の中に疑問文を組み込むときは<br>
+                <strong>「疑問詞 ＋ 主語（S）＋ 動詞（V）」の肯定文の語順</strong>にする！
+            </div>
+
+            <h3 class="subsection-title">1. 基本の形</h3>
+            <p>普通の疑問文と、間接疑問文（主文の目的語として埋め込まれた疑問文）の語順の違いをしっかり把握しましょう。</p>
+
+            <p><strong>【通常の疑問文】</strong></p>
+            <div class="syntax-block">
+                Where <span class="highlight">does he live</span>? （彼はどこに住んでいますか？）
+            </div>
+
+            <p><strong>【間接疑問文】</strong></p>
+            <div class="syntax-block">
+                Do you know where <span class="highlight">he lives</span>? （彼がどこに住んでいるか知っていますか？）
+            </div>
+
+            <h3 class="subsection-title">2. 間接疑問文の「3大ミス」と対策</h3>
+
+            <div class="warning-box">
+                <h4>⚠️ 罠①：does / did を消して、動詞の形を戻し忘れる！</h4>
+                <p>疑問文を作っていた <code>does</code> や <code>did</code> は消えますが、その分の<strong>三単現の <code>s</code> や過去形を動詞に戻す</strong>必要があります。</p>
+                <ul class="example-list">
+                    <li class="wrong">I don't know where <u>does he live</u>.（疑問文の語順のまま）</li>
+                    <li class="wrong">I don't know where he <u>live</u>.（三単現の s を忘れ）</li>
+                    <li class="correct"><strong>I don't know where he <u>lives</u>.</strong></li>
+                    <li class="wrong">Tell me what <u>did she buy</u>.（過去形の did が残っている）</li>
+                    <li class="correct"><strong>Tell me what she <u>bought</u>.</strong>（buy を過去形 bought に直す）</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ 罠②：疑問詞がそのまま「主語」になっている場合</h4>
+                <p><code>Who</code>（誰が）や <code>What</code>（何が）自体が主語の役割をしている疑問文は、<strong>語順を変えずにそのまま繋ぐ</strong>だけでOKです。</p>
+                <p>・通常の疑問文：<strong>Who wrote</strong> this book?（誰がこの本を書きましたか？）<br>
+                ・間接疑問文：Do you know <strong>who wrote</strong> this book?（語順変更なし！）</p>
+            </div>
+
+            <div class="tip-box">
+                <h4>💡 テスト頻出の書き出しパターン</h4>
+                <ul style="padding-left: 20px;">
+                    <li><code>Do you know + 疑問詞 + S + V ?</code> （〜か知っていますか）</li>
+                    <li><code>Tell me + 疑問詞 + S + V .</code> （〜か教えてください）</li>
+                    <li><code>I don't know + 疑問詞 + S + V .</code> （〜か分かりません）</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 第2章：分詞の後置修飾 -->
+        <section id="section2" class="card">
+            <h2 class="section-title">第2章：分詞の後置修飾（現在分詞・過去分詞）</h2>
+            <div class="summary-box">
+                💡 鉄則：説明が<strong>2語以上</strong>になったら、名詞の<strong>後ろ</strong>から説明する！
+            </div>
+
+            <h3 class="subsection-title">1. 前置修飾 vs 後置修飾のルール</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>修飾のタイプ</th>
+                        <th>語数</th>
+                        <th>位置</th>
+                        <th>例文</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>前置修飾</strong></td>
+                        <td>1語のみ</td>
+                        <td>名詞の<strong>前</strong></td>
+                        <td>a <strong>running</strong> boy （走っている男の子）<br>a <strong>broken</strong> chair （壊れた椅子）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>後置修飾</strong></td>
+                        <td>2語以上</td>
+                        <td>名詞の<strong>後ろ</strong></td>
+                        <td>a boy <strong>running in the park</strong> （公園を走っている男の子）<br>a chair <strong>broken by Tom</strong> （トムによって壊された椅子）</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="subsection-title">2. 現在分詞（-ing）と過去分詞（-ed）の使い分け</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>分類</th>
+                        <th>意味</th>
+                        <th>関係</th>
+                        <th>例文</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>現在分詞 (-ing)</strong></td>
+                        <td>〜している</td>
+                        <td>能動（名詞が自らする）</td>
+                        <td>the girl <strong>singing a song</strong><br>（歌を歌っている女の子）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>過去分詞 (-ed/不規則)</strong></td>
+                        <td>〜される／された</td>
+                        <td>受動（名詞が〜される）</td>
+                        <td>the picture <strong>painted by Ken</strong><br>（ケンによって描かれた絵）</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <h4>⚠️ テストで狙われる罠：主語を後ろから説明する場合の「本動詞」の位置</h4>
+                <p>文の主語に後置修飾がつくと、文全体の動詞（本動詞）が後ろに追いやられます。</p>
+                <div class="syntax-block">
+                    The boy <span class="highlight">[running in the park]</span> <span class="accent">is</span> Ken.
+                </div>
+                <p>「公園を走っている男の子はケンです。」<br>
+                ※ <code>running</code> があっても、文全体の動詞は <code>is</code> です。修飾部分 <code>[running in the park]</code> をカッコでくくって文の骨組み（<code>The boy is Ken</code>）を見抜く練習をしましょう！</p>
+            </div>
+        </section>
+
+        <!-- 第3章：関係代名詞 -->
+        <section id="section3" class="card">
+            <h2 class="section-title">第3章：関係代名詞（主格・目的格・省略）</h2>
+            <div class="summary-box">
+                💡 鉄則：関係代名詞は「先行詞（説明される名詞）」と「後ろの説明文」をつなぐ接着剤！
+            </div>
+
+            <h3 class="subsection-title">1. 主格と目的格のまとめ一覧表</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>格</th>
+                        <th>先行詞が「人」</th>
+                        <th>先行詞が「物・動物」</th>
+                        <th>共通 (人・物)</th>
+                        <th>後ろに続く構造</th>
+                        <th>省略</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>主格</strong></td>
+                        <td><code>who</code></td>
+                        <td><code>which</code></td>
+                        <td><code>that</code></td>
+                        <td><strong>＋ 動詞 (V)</strong></td>
+                        <td>❌ 不可</td>
+                    </tr>
+                    <tr>
+                        <td><strong>目的格</strong></td>
+                        <td><code>who</code> / <code>whom</code></td>
+                        <td><code>which</code></td>
+                        <td><code>that</code></td>
+                        <td><strong>＋ 主語(S) ＋ 動詞(V)</strong></td>
+                        <td>⭕ <strong>可能！</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="subsection-title">2. 主格（who / which / that）のポイント</h3>
+            <p>関係代名詞のすぐ後ろに<strong>動詞</strong>が来ます（関係代名詞自身が主語の役割を果たすため）。</p>
+            <div class="syntax-block">
+                I have a friend <span class="highlight">who</span> <span class="accent">lives</span> in Canada.
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ 罠：主格の後ろの動詞は「先行詞」に一致させる！</h4>
+                <ul class="example-list">
+                    <li class="wrong">I know the boys who <u>lives</u> here.（boysが複数なのにlivesになっている）</li>
+                    <li class="correct"><strong>I know the boys who <u>live</u> here.</strong></li>
+                </ul>
+            </div>
+
+            <h3 class="subsection-title">3. 目的格（which / that）と「省略」</h3>
+            <p>関係代名詞のすぐ後ろに<strong>「主語 ＋ 動詞」</strong>が来ます。目的格の関係代名詞は<strong>省略が可能</strong>です。</p>
+            
+            <div class="syntax-block">
+                This is the book <span class="highlight">(which / that)</span> I bought yesterday.<br>
+                ➔ This is the book <span class="accent">I bought yesterday</span>. （★省略形がテストで頻出！）
+            </div>
+
+            <div class="tip-box">
+                <h4>💡 関係代名詞の省略を見抜くコツ</h4>
+                <p><code>名詞 ＋ 主語(代名詞など) ＋ 動詞</code> が並んでいたら、間に目的格の関係代名詞が省略されています。<br>
+                例: The movie <strong>[I watched last night]</strong> was fun.（私が昨夜見た映画は面白かった。）</p>
+            </div>
+        </section>
+
+        <!-- 第4章：テスト頻出！徹底比較＆見分け方 -->
+        <section id="section4" class="card">
+            <h2 class="section-title">第4章：テスト頻出！比較＆見分け方</h2>
+
+            <h3 class="subsection-title">1. 分詞の後置修飾 ⇔ 関係代名詞の書き換え</h3>
+            <p>「分詞の修飾」と「関係代名詞 ＋ be動詞」は全く同じ内容を表すことができます。</p>
+            
+            <p><strong>【現在分詞の書き換え】</strong></p>
+            <ul class="example-list">
+                <li>分詞：The girl <strong>singing</strong> on the stage is Lucy.</li>
+                <li>関係代名詞：The girl <strong>who is singing</strong> on the stage is Lucy.</li>
+            </ul>
+
+            <p><strong>【過去分詞の書き換え】</strong></p>
+            <ul class="example-list">
+                <li>分詞：The book <strong>written</strong> in English is easy.</li>
+                <li>関係代名詞：The book <strong>which was written</strong> in English is easy.</li>
+            </ul>
+
+            <h3 class="subsection-title">2. 間接疑問文の who vs 関係代名詞の who の見分け方</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>区分</th>
+                        <th>間接疑問文の who</th>
+                        <th>関係代名詞の who</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>和訳</strong></td>
+                        <td>「〜が誰か」「誰が〜か」</td>
+                        <td>訳さない（先行詞を説明するだけ）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>直前の単語</strong></td>
+                        <td><strong>動詞</strong>（know, tell, askなど）</td>
+                        <td><strong>名詞（先行詞）</strong>（man, boy, girlなど）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>例文</strong></td>
+                        <td>I know <strong>who wrote</strong> this.<br>（誰がこれを書いたか知っている）</td>
+                        <td>I know the man <strong>who wrote</strong> this.<br>（これを書いた男性を知っている）</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 第5章：確認テスト -->
+        <section id="section5" class="card">
+            <h2 class="section-title">第5章：テスト直前チェック！一問一答演習</h2>
+            <p>問題をクリック（タップ）すると解答と解説が表示されます。</p>
+
+            <details class="quiz-item">
+                <summary>【問1】 (語順選択) Do you know where ______ ?<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(A) does Ken live &nbsp;&nbsp;&nbsp;&nbsp;(B) Ken lives &nbsp;&nbsp;&nbsp;&nbsp;(C) Ken live</summary>
+                <div class="quiz-answer">
+                    <strong>正解：(B) Ken lives</strong><br>
+                    <strong>解説：</strong>間接疑問文の語順は「疑問詞 + S + V」。主語 Ken に合わせて三単現の <code>s</code> がついた <code>lives</code> になります。
+                </div>
+            </details>
+
+            <details class="quiz-item">
+                <summary>【問2】 (適語補充) The picture ( take ) by Tom is very beautiful.</summary>
+                <div class="quiz-answer">
+                    <strong>正解：taken</strong><br>
+                    <strong>解説：</strong>「トムによって<u>撮影された</u>写真」という受け身の意味なので、過去分詞の <code>taken</code> が入ります。
+                </div>
+            </details>
+
+            <details class="quiz-item">
+                <summary>【問3】 (文の結合・省略) 関係代名詞を省略して1文にしなさい。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is the CD. I listened to it yesterday.</summary>
+                <div class="quiz-answer">
+                    <strong>正解：This is the CD I listened to yesterday.</strong><br>
+                    <strong>解説：</strong>目的格 Relationship <code>which/that</code> を使って繋ぎ、重複する <code>it</code> を消去します。目的格なので関係代名詞を省略できます。文末の <code>to</code> を消さないように注意！
+                </div>
+            </details>
+
+            <details class="quiz-item">
+                <summary>【問4】 (誤り指摘) 次の文のまちがいを1箇所正しなさい。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"The boy who run fast is my brother."</summary>
+                <div class="quiz-answer">
+                    <strong>正解：run ➔ runs</strong><br>
+                    <strong>解説：</strong>主格の関係代名詞 <code>who</code> の後ろの動詞は、先行詞である <code>The boy</code>（単数）に合わせるため <code>runs</code> にします。
+                </div>
+            </details>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 中学英語難所攻略マスターガイド | 定期テスト・高校入試対策</p>
+    </footer>
+
+</body>
+</html>
